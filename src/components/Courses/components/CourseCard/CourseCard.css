@@ -1,0 +1,33 @@
+.CourseCard{
+border: 2px solid rgb(127, 183, 127);
+padding: 15px 15px 15px 15px;
+margin-bottom: 20px;
+margin-top: 10px;
+}
+
+    split-screen{
+        display: 'flex';
+        flex-direction: 'row';
+    }
+    top-pane {
+        width: '50%',
+    }
+    bottom-pane {
+        width: '50%',
+    }
+
+    div.course-title{
+        font-size: 18pt;
+        font-weight: bold;
+    }
+
+   span.course-details{
+    font-size: large;
+    font-weight: bold;
+   }
+
+   .course-info{
+    padding-bottom: 15px;
+   }
+
+

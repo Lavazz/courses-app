@@ -1,0 +1,58 @@
+.creation-page{
+    padding: 15px 15px 15px 5px;
+}
+
+
+
+.input{
+    padding-bottom: 15px;
+}
+
+    textarea {
+        width: 99%;
+        height: 100%;
+        resize: both;
+        display: inline-block;
+        overflow: auto;
+        /* overflow: hidden; */
+        border: 1px solid rgb(235, 235, 54);
+        padding: 15px 0px 15px 15px;
+        box-sizign: border-box;
+    }
+
+  .create-course{
+        float:right;
+    }
+
+    .creation-details{
+        border: 1px solid black;
+        padding: 5px 15px 15px 15px;
+    }
+
+    .input-details{
+        padding: 0px 15px 30px 0px;
+    }
+
+    p{
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .duration{
+font-size: 20px;
+    }
+
+    .authors{
+        float: right;
+    }
+
+    .button{
+            padding: 5px;
+            margin: 5px;
+            border: 2px solid violet;
+            width: 130px;
+            margin: 0 auto;
+            display: block;
+            margin-top: 10px;
+        }
+    
