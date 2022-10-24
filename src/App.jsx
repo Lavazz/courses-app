@@ -4,14 +4,16 @@ import './App.css';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
 import { mockedCoursesList, mockedAuthorsList } from './constants';
+import CreateCourse from './components/CreateCourse/CreateCourse';
 
 function App() {
 	const [searchTerm, setSearchTerm] = useState('');
-	const [searchResults, setSearchResults] = useState([]);
+	const [searchResults, setSearchResults] = useState(mockedCoursesList);
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
+	const [isCreateCoursePage, setCreateCoursePage] = useState(false);
 
-	const searchHandler = (searchTerm) => {
+	const onSearchChange = (searchTerm) => {
 		setSearchTerm(searchTerm);
 		if (searchTerm !== '') {
 			const newCoursesList = coursesList.filter((course) => {
@@ -26,25 +28,39 @@ function App() {
 		}
 	};
 
-	function buttonAction(text) {
-		console.log('text', text);
+	function onCourseUpdate(course) {
+		setCoursesList([...coursesList, course]);
+		setCreateCoursePage(false);
+	}
+
+	function onAuthorUpdate(author) {
+		setAuthorsList([...authorsList, author]);
+	}
+
+	function handleLogout(event) {
+		console.log('some event');
 	}
 
 	return (
 		<div className='App'>
-			<Header buttonText='Logout' buttonAction={buttonAction} />
-			<Courses
-				authorsList={authorsList}
-				coursesList={searchTerm.length < 1 ? coursesList : searchResults}
-				term={searchTerm}
-				searchKeyword={searchHandler}
-				updateCourses={(course) => {
-					setCoursesList([...coursesList, course]);
-				}}
-				updateAuthors={(author) => {
-					setAuthorsList([...authorsList, author]);
-				}}
-			/>
+			<Header buttonAction={handleLogout} />
+			{isCreateCoursePage ? (
+				<CreateCourse
+					authorsList={authorsList}
+					updateCourses={onCourseUpdate}
+					updateAuthors={onAuthorUpdate}
+				/>
+			) : (
+				<Courses
+					authorsList={authorsList}
+					coursesList={searchTerm.length < 1 ? coursesList : searchResults}
+					term={searchTerm}
+					searchKeyword={onSearchChange}
+					changeToggler={() => {
+						setCreateCoursePage(true);
+					}}
+				/>
+			)}
 		</div>
 	);
 }

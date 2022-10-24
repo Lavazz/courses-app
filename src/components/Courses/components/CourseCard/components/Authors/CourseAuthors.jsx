@@ -5,15 +5,15 @@ function CourseAuthors({ authorsId, authors }) {
 		return authors.find((element) => element.id === id);
 	}
 
-	const authorItem = authorsId.map((id) => {
+	const authorItems = authorsId.map((id) => {
 		const author = findArrayElementById(id);
 		const name = author.name + ',';
-		return <span>{name}</span>;
+		return <span key={author.id}>{name}</span>;
 	});
 
 	return (
 		<span>
-			<span>{authorItem}</span>
+			<span>{authorItems}</span>
 		</span>
 	);
 }

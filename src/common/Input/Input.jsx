@@ -2,19 +2,23 @@ import React from 'react';
 
 import './Input.css';
 
-function Input(props, { handleChange }) {
+function Input({
+	handleChange,
+	type,
+	lableText,
+	placeholderText,
+	...restProps
+}) {
 	return (
-		<span>
-			<label for='input'>
-				<div>{props.lableText}</div>
-				<input
-					type={props.type}
-					placeholder={props.placeholderText}
-					onChange={handleChange}
-					id='input'
-				/>
-			</label>
-		</span>
+		<label>
+			<div>{lableText}</div>
+			<input
+				type={type}
+				placeholder={placeholderText}
+				onChange={handleChange}
+				{...restProps}
+			/>
+		</label>
 	);
 }
 

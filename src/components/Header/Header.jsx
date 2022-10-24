@@ -13,7 +13,7 @@ function Header(props) {
 			<span className='wrapper'>
 				<span className='center_block'>{USER_NAME}</span>
 				<span className='right_block'>
-					<Button buttonText={props.buttonText} onClick={props.buttonAction} />
+					<Button buttonText='Logout' onClick={props.handleLogout} />
 				</span>
 			</span>
 		</div>

@@ -25,7 +25,7 @@ function CourseCard({ course, authors }) {
 					<div className='course-info'>
 						<span className='course-details'>Duration: </span>
 						{course.duration}
-						<span>hours</span>
+						<span> hours</span>
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Created: </span>

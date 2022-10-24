@@ -1,4 +1,4 @@
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState } from 'react';
 import AuthorItem from './components/AuthorItem/AuthorItem';
 import './CreateCourse.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
@@ -8,7 +8,7 @@ function CreateCourse({
 	authorsList,
 	updateAuthors,
 	updateCourses,
-	changeToggler,
+	...anotherProps
 }) {
 	const [authors, setAuthors] = useState(authorsList);
 	const [courseAuthors, setCourseAuthors] = useState([]);
@@ -16,10 +16,8 @@ function CreateCourse({
 	const [nameValue, setNameValue] = useState('');
 	const [titleValue, setTitleValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
-	const [formErrors, setFormErrors] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
 
-	const autoId = useId();
 	const formatDate = Moment().format('DD/MM/YYYY');
 
 	function addAuthorToCourse(author) {
@@ -40,21 +38,21 @@ function CreateCourse({
 		);
 	}
 
-	const authorItem = authors.map((author) => (
+	const authorItems = authors.map((author) => (
 		<AuthorItem
 			author={author}
 			key={author.id}
-			clickHandler={() => addAuthorToCourse(author)}
+			clickHandler={addAuthorToCourse}
 			buttonText='Add author'
 		/>
 	));
 
-	const courseAuthorItem = courseAuthors.map((author) => {
+	const courseAuthorItems = courseAuthors.map((author) => {
 		return (
 			<AuthorItem
 				author={author}
 				key={author.id}
-				clickHandler={() => deleteAuthorFromCourse(author)}
+				clickHandler={deleteAuthorFromCourse}
 				buttonText='Delete author'
 			/>
 		);
@@ -63,23 +61,22 @@ function CreateCourse({
 	const addAuthor = (event) => {
 		event.preventDefault();
 		const newAuthor = {
-			id: autoId,
+			id: Date.now(),
 			name: nameValue,
 		};
 		updateAuthors(newAuthor);
 		setAuthors([...authors, newAuthor]);
-		setNameValue([]);
+		setNameValue('');
 	};
 
 	const createCourse = (event) => {
 		event.preventDefault();
 
-		setFormErrors(
-			validate(titleValue, descriptionValue, durationValue, courseAuthors)
-		);
+		validate(titleValue, descriptionValue, durationValue, courseAuthors);
+
 		if (isSubmit) {
 			const newCourse = {
-				id: autoId,
+				id: Date.now(),
 				title: titleValue,
 				description: descriptionValue,
 				creationDate: formatDate,
@@ -87,13 +84,6 @@ function CreateCourse({
 				authors: courseAuthors.map((author) => author.id),
 			};
 			updateCourses(newCourse);
-			changeToggler(true);
-			setTitleValue('');
-			setDescriptionValue('');
-			setDurationValue('');
-			courseAuthors.map((authorForDelete) => {
-				deleteAuthorFromCourse(authorForDelete);
-			});
 		}
 	};
 
@@ -111,21 +101,15 @@ function CreateCourse({
 			courseAuthors.length === 0
 		) {
 			errors.fields = 'Please, fill in all fields';
+			alert('Please, fill in all fields');
 		} else if (descriptionValue.length < 2) {
 			errors.fields = 'Min length is 2';
+			alert('Min length is 2');
 		} else {
 			setIsSubmit(true);
 		}
 		return errors;
 	};
-
-	useEffect(() => {
-		if (Object.keys(formErrors).length === 0 && isSubmit) {
-			console.log('OK');
-		} else {
-			alert(formErrors.fields);
-		}
-	}, [formErrors]);
 
 	return (
 		<div className='creation-page'>
@@ -208,11 +192,11 @@ function CreateCourse({
 					</div>
 					<div className='authors'>
 						<p>Authors</p>
-						<div>{authorItem}</div>
+						<div>{authorItems}</div>
 						<p>Course authors</p>
 						<div>
 							{courseAuthors.length > 0
-								? courseAuthorItem
+								? courseAuthorItems
 								: 'Author list is empty'}
 						</div>
 					</div>
