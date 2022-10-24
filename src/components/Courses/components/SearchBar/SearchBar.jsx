@@ -5,28 +5,23 @@ import Input from '../../../../common/Input/Input';
 
 import './SearchBar.css';
 
-function SearchBar({
-	coursesList,
-	updateData,
-	searchKeyword,
-	term,
-	...restProps
-}) {
-	const inputEl = useRef('');
+function SearchBar({ searchKeyword }) {
+	const [value, setValue] = useState('');
 
-	const getSearchTerm = () => {
-		searchKeyword(inputEl.current.value);
+	const getSearchTerm = (event) => {
+		const newValue = event.target.value;
+		setValue(newValue);
+		searchKeyword(newValue);
 	};
 
 	return (
 		<form>
 			<span className='SearchBar'>
 				<input
-					ref={inputEl}
 					onChange={getSearchTerm}
-					placeholderText='Enter course name...'
+					placeholder='Enter course name...'
 					type='search'
-					value={term}
+					value={value}
 				/>
 				<Button buttonText='Search' onClick={getSearchTerm} />
 			</span>

@@ -7,14 +7,12 @@ import { mockedCoursesList, mockedAuthorsList } from './constants';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 
 function App() {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [searchResults, setSearchResults] = useState(mockedCoursesList);
+	const [filteredCourses, setFilteredCourses] = useState(mockedCoursesList);
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
 	const [isCreateCoursePage, setCreateCoursePage] = useState(false);
 
 	const onSearchChange = (searchTerm) => {
-		setSearchTerm(searchTerm);
 		if (searchTerm !== '') {
 			const newCoursesList = coursesList.filter((course) => {
 				return (
@@ -22,9 +20,9 @@ function App() {
 					course.id.toLowerCase().includes(searchTerm.toLowerCase())
 				);
 			});
-			setSearchResults(newCoursesList);
+			setFilteredCourses(newCoursesList);
 		} else {
-			setSearchResults(coursesList);
+			setFilteredCourses(coursesList);
 		}
 	};
 
@@ -38,12 +36,12 @@ function App() {
 	}
 
 	function handleLogout(event) {
-		console.log('some event');
+		console.log('some event', event);
 	}
 
 	return (
 		<div className='App'>
-			<Header buttonAction={handleLogout} />
+			<Header onLogout={handleLogout} />
 			{isCreateCoursePage ? (
 				<CreateCourse
 					authorsList={authorsList}
@@ -53,8 +51,7 @@ function App() {
 			) : (
 				<Courses
 					authorsList={authorsList}
-					coursesList={searchTerm.length < 1 ? coursesList : searchResults}
-					term={searchTerm}
+					coursesList={filteredCourses}
 					searchKeyword={onSearchChange}
 					changeToggler={() => {
 						setCreateCoursePage(true);

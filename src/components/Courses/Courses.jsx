@@ -19,8 +19,6 @@ function Courses(props) {
 			<span>
 				<SearchBar
 					coursesList={props.coursesList}
-					updateData={props.updateData}
-					term={props.term}
 					searchKeyword={props.searchKeyword}
 				/>
 			</span>

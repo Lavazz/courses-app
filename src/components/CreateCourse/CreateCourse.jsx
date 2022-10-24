@@ -16,11 +16,10 @@ function CreateCourse({
 	const [nameValue, setNameValue] = useState('');
 	const [titleValue, setTitleValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
-	const [isSubmit, setIsSubmit] = useState(false);
 
 	const formatDate = Moment().format('DD/MM/YYYY');
 
-	function addAuthorToCourse(author) {
+	function addAuthorToCourse(author ) {
 		setCourseAuthors([...courseAuthors, author]);
 		setAuthors(
 			authors.filter((a) => {
@@ -72,9 +71,9 @@ function CreateCourse({
 	const createCourse = (event) => {
 		event.preventDefault();
 
-		validate(titleValue, descriptionValue, durationValue, courseAuthors);
+		const errors = validate(titleValue, descriptionValue, durationValue, courseAuthors);
 
-		if (isSubmit) {
+		if (Object.keys(errors).length === 0) {
 			const newCourse = {
 				id: Date.now(),
 				title: titleValue,
@@ -105,8 +104,6 @@ function CreateCourse({
 		} else if (descriptionValue.length < 2) {
 			errors.fields = 'Min length is 2';
 			alert('Min length is 2');
-		} else {
-			setIsSubmit(true);
 		}
 		return errors;
 	};
