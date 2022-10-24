@@ -19,7 +19,7 @@ function CreateCourse({
 
 	const formatDate = Moment().format('DD/MM/YYYY');
 
-	function addAuthorToCourse(author ) {
+	function addAuthorToCourse(author) {
 		setCourseAuthors([...courseAuthors, author]);
 		setAuthors(
 			authors.filter((a) => {
@@ -71,7 +71,12 @@ function CreateCourse({
 	const createCourse = (event) => {
 		event.preventDefault();
 
-		const errors = validate(titleValue, descriptionValue, durationValue, courseAuthors);
+		const errors = validate(
+			titleValue,
+			descriptionValue,
+			durationValue,
+			courseAuthors
+		);
 
 		if (Object.keys(errors).length === 0) {
 			const newCourse = {
@@ -85,6 +90,10 @@ function CreateCourse({
 			updateCourses(newCourse);
 		}
 	};
+
+	function isNumber(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 
 	const validate = (
 		titleValue,
@@ -104,9 +113,18 @@ function CreateCourse({
 		} else if (descriptionValue.length < 2) {
 			errors.fields = 'Min length is 2';
 			alert('Min length is 2');
+		} else if (!isNumber(durationValue)) {
+			errors.fields = 'It should be number';
+			alert('It should be number');
 		}
 		return errors;
 	};
+
+	function getTimeFromMins(mins) {
+		const hours = Math.trunc(mins / 60);
+		const minutes = mins % 60;
+		return hours + ':' + minutes;
+	}
 
 	return (
 		<div className='creation-page'>
@@ -185,7 +203,9 @@ function CreateCourse({
 								/>
 							</label>
 						</div>
-						<div className='duration'>Duration: 00:00 hours</div>
+						<div className='duration'>
+							Duration: {getTimeFromMins(durationValue)} hours
+						</div>
 					</div>
 					<div className='authors'>
 						<p>Authors</p>
