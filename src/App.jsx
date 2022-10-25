@@ -27,7 +27,7 @@ function App() {
 	};
 
 	function onCourseUpdate(course) {
-		setCoursesList([...coursesList, course]);
+		setFilteredCourses([...filteredCourses, course]);
 		setCreateCoursePage(false);
 	}
 
