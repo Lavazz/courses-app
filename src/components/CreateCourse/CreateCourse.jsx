@@ -4,12 +4,7 @@ import './CreateCourse.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import Moment from 'moment';
 
-function CreateCourse({
-	authorsList,
-	updateAuthors,
-	updateCourses,
-	...anotherProps
-}) {
+function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [authors, setAuthors] = useState(authorsList);
 	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [descriptionValue, setDescriptionValue] = useState('');
