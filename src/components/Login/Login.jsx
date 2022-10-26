@@ -10,14 +10,33 @@ function Login() {
 
 	async function onSubmitCreds(e) {
 		e.preventDefault();
-		// Response contains value result, it's user's token. You should save it to the localStorage
+		const credentials = {
+			email: email,
+			password: password,
+		};
+
+		const response = await fetch('http://localhost:4000/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(credentials),
+		});
+
+		const result = await response.json();
+		localStorage.setItem(email, result.result);
+
 		navigate('/courses');
 	}
 
 	return (
 		<div className='Login'>
 			<p>Login</p>
-			<form onSubmit={onSubmitCreds}>
+			<form
+				onSubmit={(e) => {
+					onSubmitCreds(e);
+				}}
+			>
 				<label>
 					Email
 					<input
