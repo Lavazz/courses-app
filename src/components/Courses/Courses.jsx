@@ -7,6 +7,8 @@ import SearchBar from './components/SearchBar/SearchBar';
 
 import { Button } from '../../common/Button/Button';
 
+import { Link } from 'react-router-dom';
+
 function Courses(props) {
 	const renderCoursesList = props.coursesList.map((course) => {
 		return (
@@ -23,7 +25,14 @@ function Courses(props) {
 				/>
 			</span>
 			<span className='right-button'>
-				<Button buttonText='Add new course' onClick={props.changeToggler} />
+				<Link to='/courses/add'>
+					<Button
+						buttonText='Add new course'
+						onClick={() => {
+							console.log('add course');
+						}}
+					/>
+				</Link>
 			</span>
 
 			<div>

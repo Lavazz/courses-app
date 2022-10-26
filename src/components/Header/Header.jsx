@@ -6,6 +6,7 @@ import { Button } from '../../common/Button/Button';
 import './Header.css';
 
 import { USER_NAME } from '../../constants.js';
+import { Link } from 'react-router-dom';
 function Header({ onLogout }) {
 	return (
 		<div className='Header'>
@@ -13,7 +14,9 @@ function Header({ onLogout }) {
 			<span className='wrapper'>
 				<span className='center_block'>{USER_NAME}</span>
 				<span className='right_block'>
-					<Button buttonText='Logout' onClick={onLogout} />
+					<Link to='/login'>
+						<Button buttonText='Logout' onClick={onLogout} />
+					</Link>
 				</span>
 			</span>
 		</div>

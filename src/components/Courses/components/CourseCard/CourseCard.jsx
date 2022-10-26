@@ -6,6 +6,7 @@ import CourseAuthors from './components/Authors/CourseAuthors';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 
 import './CourseCard.css';
+import { Link } from 'react-router-dom';
 
 function CourseCard({ course, authors }) {
 	console.log('log courses: ', { course });
@@ -32,10 +33,12 @@ function CourseCard({ course, authors }) {
 						{course.creationDate}
 					</div>
 					<div>
-						<Button
-							buttonText='Show course'
-							onClick={() => console.log('Show course')}
-						/>
+						<Link to={'/courses/' + course.id}>
+							<Button
+								buttonText='Show course'
+								onClick={() => console.log('Show course')}
+							/>
+						</Link>
 					</div>
 				</div>
 			</ReactSplit>

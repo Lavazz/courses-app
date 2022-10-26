@@ -3,6 +3,7 @@ import AuthorItem from './components/AuthorItem/AuthorItem';
 import './CreateCourse.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import Moment from 'moment';
+import { Link } from 'react-router-dom';
 
 function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [authors, setAuthors] = useState(authorsList);
@@ -138,12 +139,14 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 						placeholder='Enter title'
 					/>
 				</label>
-				<input
-					type='submit'
-					value='Create course'
-					className='button'
-					form='addCourse'
-				/>
+				<Link to='/courses'>
+					<input
+						type='submit'
+						value='Create course'
+						class='button'
+						form='addCourse'
+					/>
+				</Link>
 			</div>
 			<div>
 				<label>
@@ -179,7 +182,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 						<input
 							type='submit'
 							value='Create author'
-							className='button'
+							class='button'
 							form='addAuthor'
 						/>
 
