@@ -11,13 +11,15 @@ function Header({ onLogout, isAuth }) {
 	return (
 		<div className='Header'>
 			<Logo />
-			<span className='wrapper'>
-				{isAuth && <span className='center_block'>{USER_NAME}</span>}
+			{isAuth && (
+				<span className='wrapper'>
+					<span className='center_block'>{USER_NAME}</span>
 
-				<span className='right_block'>
-					<Button buttonText='Logout' onClick={onLogout} />
+					<span className='right_block'>
+						<Button buttonText='Logout' onClick={onLogout} />
+					</span>
 				</span>
-			</span>
+			)}
 		</div>
 	);
 }
