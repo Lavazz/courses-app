@@ -35,7 +35,6 @@ function App() {
 
 	function onCourseUpdate(course) {
 		setFilteredCourses([...filteredCourses, course]);
-		navigate('/courses');
 	}
 
 	function onAuthorUpdate(author) {

@@ -6,16 +6,9 @@ import CourseAuthors from './components/Authors/CourseAuthors';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 
 import './CourseCard.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function CourseCard({ course, authors }) {
-	const navigate = useNavigate();
-
-	const onClick = () => {
-		const link = '/courses/' + course.id;
-		navigate(link);
-	};
-
 	return (
 		<div className='CourseCard'>
 			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[70, 30]}>
@@ -39,7 +32,12 @@ function CourseCard({ course, authors }) {
 						{course.creationDate}
 					</div>
 					<div>
-						<Button buttonText='Show course' onClick={onClick} />
+						<Link to={'/courses/' + course.id}>
+							<Button
+								buttonText='Show course'
+								onClick={console.log('show course')}
+							/>
+						</Link>
 					</div>
 				</div>
 			</ReactSplit>

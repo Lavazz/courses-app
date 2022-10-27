@@ -26,12 +26,14 @@ function Courses(props) {
 				/>
 			</span>
 			<span className='right-button'>
-				<Button
-					buttonText='Add new course'
-					onClick={() => {
-						navigate('/courses/add');
-					}}
-				/>
+				<Link to='/courses/add'>
+					<Button
+						buttonText='Add new course'
+						onClick={() => {
+							console.log('add course');
+						}}
+					/>
+				</Link>
 			</span>
 
 			<div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
 import './Registration.css';
@@ -34,7 +35,7 @@ function Registration() {
 	return (
 		<div className='Registration'>
 			<p>Registration</p>
-			<form onSubmit={registerUser}>
+			<form>
 				<div className='input'>
 					<Input
 						placeholderText='Enter name'
@@ -68,7 +69,7 @@ function Registration() {
 						lableText='Password'
 					></Input>
 				</div>
-				<input type='submit' value='Registration' className='button' />
+				<Button buttonText='Registration' onClick={{ registerUser }} />
 				<p>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</p>

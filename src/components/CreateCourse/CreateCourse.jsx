@@ -3,6 +3,7 @@ import AuthorItem from './components/AuthorItem/AuthorItem';
 import './CreateCourse.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import Moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [authors, setAuthors] = useState(authorsList);
@@ -11,6 +12,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [nameValue, setNameValue] = useState('');
 	const [titleValue, setTitleValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
+	const navigate = useNavigate();
 
 	const formatDate = Moment().format('DD/MM/YYYY');
 
@@ -63,6 +65,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 		setNameValue('');
 	};
 
+	navigate('/courses');
 	const createCourse = (event) => {
 		event.preventDefault();
 

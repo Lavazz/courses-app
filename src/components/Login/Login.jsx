@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Button } from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import './Login.css';
 
@@ -31,7 +32,7 @@ function Login({ setIsAuth }) {
 	return (
 		<div className='Login'>
 			<p>Login</p>
-			<form onSubmit={onSubmitCreds}>
+			<form>
 				<Input
 					placeholderText='Enter email'
 					value={email}
@@ -50,7 +51,7 @@ function Login({ setIsAuth }) {
 					type='password'
 					lableText='Password'
 				></Input>
-				<input type='submit' value='Login' className='button' />
+				<Button buttonText='Login' onClick={onSubmitCreds} />
 			</form>
 			If you don't have an account you can{' '}
 			<Link to='/registration'>Registration</Link>
