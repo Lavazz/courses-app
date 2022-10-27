@@ -5,18 +5,19 @@ import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
 import { mockedCoursesList, mockedAuthorsList } from './constants';
 import CreateCourse from './components/CreateCourse/CreateCourse';
-import { Link } from 'react-router-dom';
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
 	const [filteredCourses, setFilteredCourses] = useState(mockedCoursesList);
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
-	const [tokenKey, setTokenKey] = useState('');
+	const [isAuth, setIsAuth] = useState(false);
+	const navigate = useNavigate();
 
 	const onSearchChange = (searchTerm) => {
 		if (searchTerm !== '') {
@@ -34,75 +35,61 @@ function App() {
 
 	function onCourseUpdate(course) {
 		setFilteredCourses([...filteredCourses, course]);
+		navigate('/courses');
 	}
 
 	function onAuthorUpdate(author) {
 		setAuthorsList([...authorsList, author]);
 	}
 
+	function onLogout() {
+		localStorage.removeItem('token');
+		setIsAuth(false);
+		navigate('/login');
+	}
+
 	return (
 		<div className='App'>
-			<BrowserRouter>
-				<Header
-					onLogout={() => {
-						localStorage.removeItem(tokenKey);
-						setTokenKey('');
-					}}
-					tokenKey={tokenKey}
-				/>
-				<div className='component'>
-					<Routes>
-						<Route path='/registration' element={<Registration />} />
-						<Route
-							path='/login'
-							element={
-								<Login
-									rememberTokenKey={(tokenKey) => {
-										console.log('before remove token' + tokenKey);
-										setTokenKey(tokenKey);
-									}}
-								/>
-							}
-						/>
-						<Route
-							path='/courses/:courseId'
-							element={
-								<CourseInfo
-									coursesList={filteredCourses}
-									authors={authorsList}
-								/>
-							}
-						/>
+			<Header onLogout={onLogout} isAuth={isAuth} />
+			<div className='component'>
+				<Routes>
+					<Route path='/registration' element={<Registration />} />
+					<Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
+					<Route
+						path='/courses/:courseId'
+						element={
+							<CourseInfo coursesList={filteredCourses} authors={authorsList} />
+						}
+					/>
 
-						<Route
-							path='/courses/add'
-							element={
-								<CreateCourse
-									authorsList={authorsList}
-									updateCourses={onCourseUpdate}
-									updateAuthors={onAuthorUpdate}
-								/>
-							}
-						/>
-						{tokenKey ? (
-							<Navigate exact from='/' to='/courses' />
-						) : (
-							<Navigate exact from='/' to='/login' />
-						)}
+					<Route
+						path='/courses/add'
+						element={
+							<CreateCourse
+								authorsList={authorsList}
+								updateCourses={onCourseUpdate}
+								updateAuthors={onAuthorUpdate}
+							/>
+						}
+					/>
+					{isAuth ? (
+						<Route path='/' element={<Navigate to='/courses' />} />
+					) : (
+						<Route path='/' element={<Navigate to='/login' />} />
+					)}
 
-						<Route
-							path='/courses'
-							element={
-								<Courses
-									authorsList={authorsList}
-									coursesList={filteredCourses}
-									searchKeyword={onSearchChange}
-								/>
-							}
-						/>
-					</Routes>
-				</div>
-			</BrowserRouter>
+					<Route
+						path='/courses'
+						element={
+							<Courses
+								authorsList={authorsList}
+								coursesList={filteredCourses}
+								searchKeyword={onSearchChange}
+							/>
+						}
+					/>
+				</Routes>
+			</div>
 		</div>
 	);
 }

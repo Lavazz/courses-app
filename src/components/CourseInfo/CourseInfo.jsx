@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import { Link, useParams } from 'react-router-dom';
@@ -6,12 +6,17 @@ import CourseAuthors from '../Courses/components/CourseCard/components/Authors/C
 import './CourseInfo.css';
 
 function CourseInfo({ coursesList, authors }) {
-	const searchParams = useParams();
-	const [course, setCourse] = useState(
-		coursesList.find((element) => {
-			return element.id === searchParams.courseId;
-		})
-	);
+	const { courseId } = useParams();
+
+	const course = coursesList.find((element) => {
+		return element.id === courseId;
+	});
+
+	function getTimeFromMins(mins) {
+		const hours = Math.trunc(mins / 60);
+		const minutes = mins % 60;
+		return hours + ':' + minutes;
+	}
 
 	return (
 		<Fragment>
@@ -28,11 +33,11 @@ function CourseInfo({ coursesList, authors }) {
 				<div>
 					<div className='course-info'>
 						<span className='course-details'>ID: </span>
-						{searchParams.courseId}
+						{courseId}
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Duration: </span>
-						{course.duration}
+						{getTimeFromMins(course.duration)}
 						<span> hours</span>
 					</div>
 					<div className='course-info'>

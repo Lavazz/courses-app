@@ -7,9 +7,10 @@ import SearchBar from './components/SearchBar/SearchBar';
 
 import { Button } from '../../common/Button/Button';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Courses(props) {
+	const navigate = useNavigate();
 	const renderCoursesList = props.coursesList.map((course) => {
 		return (
 			<CourseCard course={course} key={course.id} authors={props.authorsList} />
@@ -25,14 +26,12 @@ function Courses(props) {
 				/>
 			</span>
 			<span className='right-button'>
-				<Link to='/courses/add'>
-					<Button
-						buttonText='Add new course'
-						onClick={() => {
-							console.log('add course');
-						}}
-					/>
-				</Link>
+				<Button
+					buttonText='Add new course'
+					onClick={() => {
+						navigate('/courses/add');
+					}}
+				/>
 			</span>
 
 			<div>

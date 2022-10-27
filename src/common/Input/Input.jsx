@@ -7,6 +7,7 @@ function Input({
 	type,
 	lableText,
 	placeholderText,
+	value,
 	...restProps
 }) {
 	return (
@@ -16,6 +17,7 @@ function Input({
 				type={type}
 				placeholder={placeholderText}
 				onChange={handleChange}
+				value={value}
 				{...restProps}
 			/>
 		</label>
