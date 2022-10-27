@@ -7,7 +7,7 @@ import { mockedCoursesList, mockedAuthorsList } from './constants';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 import { Link } from 'react-router-dom';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
@@ -16,6 +16,7 @@ function App() {
 	const [filteredCourses, setFilteredCourses] = useState(mockedCoursesList);
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
+	const [tokenKey, setTokenKey] = useState('');
 
 	const onSearchChange = (searchTerm) => {
 		if (searchTerm !== '') {
@@ -39,18 +40,30 @@ function App() {
 		setAuthorsList([...authorsList, author]);
 	}
 
-	function handleLogout(event) {
-		console.log('some event', event);
-	}
-
 	return (
 		<div className='App'>
 			<BrowserRouter>
-				<Header onLogout={handleLogout} />
+				<Header
+					onLogout={() => {
+						localStorage.removeItem(tokenKey);
+						setTokenKey('');
+					}}
+					tokenKey={tokenKey}
+				/>
 				<div className='component'>
 					<Routes>
 						<Route path='/registration' element={<Registration />} />
-						<Route path='/login' element={<Login />} />
+						<Route
+							path='/login'
+							element={
+								<Login
+									rememberTokenKey={(tokenKey) => {
+										console.log('before remove token' + tokenKey);
+										setTokenKey(tokenKey);
+									}}
+								/>
+							}
+						/>
 						<Route
 							path='/courses/:courseId'
 							element={
@@ -71,6 +84,11 @@ function App() {
 								/>
 							}
 						/>
+						{tokenKey ? (
+							<Navigate exact from='/' to='/courses' />
+						) : (
+							<Navigate exact from='/' to='/login' />
+						)}
 
 						<Route
 							path='/courses'

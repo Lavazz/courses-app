@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Login.css';
 
-function Login() {
+function Login({ rememberTokenKey }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
@@ -25,7 +25,7 @@ function Login() {
 
 		const result = await response.json();
 		localStorage.setItem(email, result.result);
-
+		rememberTokenKey(email);
 		navigate('/courses');
 	}
 

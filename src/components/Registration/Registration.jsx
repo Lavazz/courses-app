@@ -27,9 +27,7 @@ function Registration() {
 			body: JSON.stringify(newUser),
 		});
 
-		console.log('newUser2' + newUser);
-
-		const result = await response.json();
+		// const result = await response.json();
 
 		navigate('/login');
 	}
