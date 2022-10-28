@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '../../../../common/Button/Button';
-import Input from '../../../../common/Input/Input';
 
 import './SearchBar.css';
+import PropTypes from 'prop-types';
 
 function SearchBar({ searchKeyword }) {
 	const [value, setValue] = useState('');
@@ -23,10 +23,14 @@ function SearchBar({ searchKeyword }) {
 					type='search'
 					value={value}
 				/>
-				<Button buttonText='Search' onClick={getSearchTerm} />
+				<Button buttonText='Search' onClick={() => searchKeyword(value)} />
 			</span>
 		</form>
 	);
 }
+
+SearchBar.propTypes = {
+	searchKeyword: PropTypes.func,
+};
 
 export default SearchBar;

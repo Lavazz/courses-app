@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
 
 import './Courses.css';
 
@@ -6,6 +6,9 @@ import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 
 import { Button } from '../../common/Button/Button';
+
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function Courses(props) {
 	const renderCoursesList = props.coursesList.map((course) => {
@@ -23,7 +26,9 @@ function Courses(props) {
 				/>
 			</span>
 			<span className='right-button'>
-				<Button buttonText='Add new course' onClick={props.changeToggler} />
+				<Link to='/courses/add'>
+					<Button buttonText='Add new course' />
+				</Link>
 			</span>
 
 			<div>
@@ -42,5 +47,11 @@ function Courses(props) {
 		</div>
 	);
 }
+
+Courses.propTypes = {
+	coursesList: PropTypes.array,
+	authorsList: PropTypes.array,
+	searchKeyword: PropTypes.func,
+};
 
 export default Courses;

@@ -3,6 +3,9 @@ import AuthorItem from './components/AuthorItem/AuthorItem';
 import './CreateCourse.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import Moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { getTimeFromMins } from '../../utils/types/function';
 
 function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [authors, setAuthors] = useState(authorsList);
@@ -11,6 +14,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [nameValue, setNameValue] = useState('');
 	const [titleValue, setTitleValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
+	const navigate = useNavigate();
 
 	const formatDate = Moment().format('DD/MM/YYYY');
 
@@ -84,6 +88,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 			};
 			updateCourses(newCourse);
 		}
+		navigate('/courses');
 	};
 
 	function isNumber(n) {
@@ -115,15 +120,8 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 		return errors;
 	};
 
-	function getTimeFromMins(mins) {
-		const hours = Math.trunc(mins / 60);
-		const minutes = mins % 60;
-		return hours + ':' + minutes;
-	}
-
 	return (
 		<div className='creation-page'>
-			{console.log('list authors in create course: ', { authorsList })}
 			<form onSubmit={addAuthor} id='addAuthor'></form>
 			<form onSubmit={createCourse} id='addCourse'></form>
 			<div className='input'>
@@ -138,6 +136,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 						placeholder='Enter title'
 					/>
 				</label>
+
 				<input
 					type='submit'
 					value='Create course'
@@ -217,5 +216,11 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 		</div>
 	);
 }
+
+CreateCourse.propTypes = {
+	authorsList: PropTypes.array,
+	updateAuthors: PropTypes.func,
+	updateCourses: PropTypes.func,
+};
 
 export default CreateCourse;

@@ -6,9 +6,11 @@ import CourseAuthors from './components/Authors/CourseAuthors';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 
 import './CourseCard.css';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { getTimeFromMins } from '../../../../utils/types/function';
 
 function CourseCard({ course, authors }) {
-	console.log('log courses: ', { course });
 	return (
 		<div className='CourseCard'>
 			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[70, 30]}>
@@ -24,7 +26,7 @@ function CourseCard({ course, authors }) {
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Duration: </span>
-						{course.duration}
+						{getTimeFromMins(course.duration)}
 						<span> hours</span>
 					</div>
 					<div className='course-info'>
@@ -32,15 +34,19 @@ function CourseCard({ course, authors }) {
 						{course.creationDate}
 					</div>
 					<div>
-						<Button
-							buttonText='Show course'
-							onClick={() => console.log('Show course')}
-						/>
+						<Link to={'/courses/' + course.id}>
+							<Button buttonText='Show course' />
+						</Link>
 					</div>
 				</div>
 			</ReactSplit>
 		</div>
 	);
 }
+
+CourseCard.propTypes = {
+	course: PropTypes.object,
+	authors: PropTypes.array,
+};
 
 export default CourseCard;
