@@ -31,7 +31,7 @@ function SearchBar({ searchKeyword }) {
 }
 
 SearchBar.propTypes = {
-	searchKeyword: PropTypes.string,
+	searchKeyword: PropTypes.func,
 };
 
 export default SearchBar;

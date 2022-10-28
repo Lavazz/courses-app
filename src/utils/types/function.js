@@ -1,4 +1,6 @@
-export function noop() {}
+export const noop = function () {
+	/* empty*/
+};
 
 export function getTimeFromMins(mins) {
 	const hours = Math.trunc(mins / 60);
