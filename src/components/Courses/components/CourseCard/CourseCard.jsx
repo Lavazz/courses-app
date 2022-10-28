@@ -26,12 +26,12 @@ function CourseCard({ course, authors }) {
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Duration: </span>
-						{course.duration}
+						{getTimeFromMins(course.duration)}
 						<span> hours</span>
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Created: </span>
-						{getTimeFromMins(course.creationDate)}
+						{course.creationDate}
 					</div>
 					<div>
 						<Link to={'/courses/' + course.id}>
