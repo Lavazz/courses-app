@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
 	const [filteredCourses, setFilteredCourses] = useState(mockedCoursesList);
-	const [coursesList, setCoursesList] = useState(mockedCoursesList);
+	const [coursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
 	const [isAuth, setIsAuth] = useState(false);
 	const [user, setUser] = useState({});

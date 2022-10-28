@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
 
 import './Courses.css';
 
@@ -7,11 +7,10 @@ import SearchBar from './components/SearchBar/SearchBar';
 
 import { Button } from '../../common/Button/Button';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function Courses(props) {
-	const navigate = useNavigate();
 	const renderCoursesList = props.coursesList.map((course) => {
 		return (
 			<CourseCard course={course} key={course.id} authors={props.authorsList} />

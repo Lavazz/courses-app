@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '../../../../common/Button/Button';
-import Input from '../../../../common/Input/Input';
 
 import './SearchBar.css';
 import PropTypes from 'prop-types';
