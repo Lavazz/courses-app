@@ -23,7 +23,7 @@ function SearchBar({ searchKeyword }) {
 					type='search'
 					value={value}
 				/>
-				<Button buttonText='Search' onClick={getSearchTerm} />
+				<Button buttonText='Search' onClick={() => searchKeyword(value)} />
 			</span>
 		</form>
 	);

@@ -67,7 +67,6 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 		setNameValue('');
 	};
 
-	navigate('/courses');
 	const createCourse = (event) => {
 		event.preventDefault();
 
@@ -89,6 +88,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 			};
 			updateCourses(newCourse);
 		}
+		navigate('/courses');
 	};
 
 	function isNumber(n) {

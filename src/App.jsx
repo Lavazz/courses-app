@@ -16,7 +16,7 @@ function App() {
 	const [filteredCourses, setFilteredCourses] = useState(mockedCoursesList);
 	const [coursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
-	const [isAuth, setIsAuth] = useState(false);
+	const [isAuth, setIsAuth] = useState(!!localStorage.getItem('token'));
 	const [user, setUser] = useState({});
 	const navigate = useNavigate();
 
