@@ -7,6 +7,8 @@ import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 
 import './CourseCard.css';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { getTimeFromMins } from '../../../../utils/types/function';
 
 function CourseCard({ course, authors }) {
 	return (
@@ -29,14 +31,11 @@ function CourseCard({ course, authors }) {
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Created: </span>
-						{course.creationDate}
+						{getTimeFromMins(course.creationDate)}
 					</div>
 					<div>
 						<Link to={'/courses/' + course.id}>
-							<Button
-								buttonText='Show course'
-								onClick={console.log('show course')}
-							/>
+							<Button buttonText='Show course' />
 						</Link>
 					</div>
 				</div>
@@ -44,5 +43,10 @@ function CourseCard({ course, authors }) {
 		</div>
 	);
 }
+
+CourseCard.propTypes = {
+	course: PropTypes.object,
+	authors: PropTypes.array,
+};
 
 export default CourseCard;

@@ -17,6 +17,7 @@ function App() {
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
 	const [isAuth, setIsAuth] = useState(false);
+	const [user, setUser] = useState({});
 	const navigate = useNavigate();
 
 	const onSearchChange = (searchTerm) => {
@@ -45,15 +46,19 @@ function App() {
 		localStorage.removeItem('token');
 		setIsAuth(false);
 		navigate('/login');
+		setUser({});
 	}
 
 	return (
 		<div className='App'>
-			<Header onLogout={onLogout} isAuth={isAuth} />
+			<Header onLogout={onLogout} isAuth={isAuth} user={user} />
 			<div className='component'>
 				<Routes>
 					<Route path='/registration' element={<Registration />} />
-					<Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
+					<Route
+						path='/login'
+						element={<Login setIsAuth={setIsAuth} setAuthUser={setUser} />}
+					/>
 					<Route
 						path='/courses/:courseId'
 						element={

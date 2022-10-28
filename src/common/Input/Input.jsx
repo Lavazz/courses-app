@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './Input.css';
+import PropTypes from 'prop-types';
 
 function Input({
 	handleChange,
@@ -23,5 +24,13 @@ function Input({
 		</label>
 	);
 }
+
+Input.propTypes = {
+	handleChange: PropTypes.func,
+	type: PropTypes.string,
+	lableText: PropTypes.string,
+	placeholderText: PropTypes.string,
+	value: PropTypes.string,
+};
 
 export default Input;

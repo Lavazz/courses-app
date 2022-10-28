@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function CourseAuthors({ authorsId, authors }) {
 	function findArrayElementById(id) {
@@ -17,5 +18,10 @@ function CourseAuthors({ authorsId, authors }) {
 		</span>
 	);
 }
+
+CourseAuthors.propTypes = {
+	authorsId: PropTypes.array,
+	authors: PropTypes.array,
+};
 
 export default CourseAuthors;

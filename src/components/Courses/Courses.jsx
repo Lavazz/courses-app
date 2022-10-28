@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import { Button } from '../../common/Button/Button';
 
 import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function Courses(props) {
 	const navigate = useNavigate();
@@ -27,12 +28,7 @@ function Courses(props) {
 			</span>
 			<span className='right-button'>
 				<Link to='/courses/add'>
-					<Button
-						buttonText='Add new course'
-						onClick={() => {
-							console.log('add course');
-						}}
-					/>
+					<Button buttonText='Add new course' />
 				</Link>
 			</span>
 
@@ -52,5 +48,11 @@ function Courses(props) {
 		</div>
 	);
 }
+
+Courses.propTypes = {
+	coursesList: PropTypes.array,
+	authorsList: PropTypes.array,
+	searchKeyword: PropTypes.func,
+};
 
 export default Courses;

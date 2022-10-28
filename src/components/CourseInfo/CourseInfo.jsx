@@ -4,6 +4,8 @@ import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import { Link, useParams } from 'react-router-dom';
 import CourseAuthors from '../Courses/components/CourseCard/components/Authors/CourseAuthors';
 import './CourseInfo.css';
+import { getTimeFromMins } from '../../utils/types/function';
+import PropTypes from 'prop-types';
 
 function CourseInfo({ coursesList, authors }) {
 	const { courseId } = useParams();
@@ -11,12 +13,6 @@ function CourseInfo({ coursesList, authors }) {
 	const course = coursesList.find((element) => {
 		return element.id === courseId;
 	});
-
-	function getTimeFromMins(mins) {
-		const hours = Math.trunc(mins / 60);
-		const minutes = mins % 60;
-		return hours + ':' + minutes;
-	}
 
 	return (
 		<Fragment>
@@ -54,4 +50,8 @@ function CourseInfo({ coursesList, authors }) {
 	);
 }
 
+CourseInfo.propTypes = {
+	coursesList: PropTypes.array,
+	authors: PropTypes.array,
+};
 export default CourseInfo;

@@ -4,6 +4,7 @@ import { Button } from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
 
 import './SearchBar.css';
+import PropTypes from 'prop-types';
 
 function SearchBar({ searchKeyword }) {
 	const [value, setValue] = useState('');
@@ -28,5 +29,9 @@ function SearchBar({ searchKeyword }) {
 		</form>
 	);
 }
+
+SearchBar.propTypes = {
+	searchKeyword: PropTypes.string,
+};
 
 export default SearchBar;

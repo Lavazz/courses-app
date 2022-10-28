@@ -35,7 +35,7 @@ function Registration() {
 	return (
 		<div className='Registration'>
 			<p>Registration</p>
-			<form>
+			<form onSubmit={registerUser}>
 				<div className='input'>
 					<Input
 						placeholderText='Enter name'
@@ -69,7 +69,7 @@ function Registration() {
 						lableText='Password'
 					></Input>
 				</div>
-				<Button buttonText='Registration' onClick={{ registerUser }} />
+				<Button buttonText='Registration' />
 				<p>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</p>
