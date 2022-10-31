@@ -7,7 +7,7 @@ import './Login.css';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setUserActionCreator } from '../../store/user/actions';
-import { fetchUser } from '../../services';
+import { fetchUser } from '../../api/auth';
 
 function Login() {
 	const [email, setEmail] = useState('');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './Courses.css';
 
@@ -12,8 +12,24 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../store/courses/selectors';
 
-function Courses({ searchKeyword, filteredCourses }) {
+function Courses() {
 	const courses = useSelector(selectCourses);
+	const [filteredCourses, setFilteredCourses] = useState(courses);
+
+	const searchKeyword = (searchTerm) => {
+		if (searchTerm !== '') {
+			const newCoursesList = filteredCourses.filter((course) => {
+				return (
+					course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					course.id.toLowerCase().includes(searchTerm.toLowerCase())
+				);
+			});
+			setFilteredCourses(newCoursesList);
+		} else {
+			setFilteredCourses(courses);
+		}
+	};
+
 	const renderCoursesList = filteredCourses.map((course) => {
 		return <CourseCard course={course} key={course.id} />;
 	});
@@ -30,11 +46,7 @@ function Courses({ searchKeyword, filteredCourses }) {
 			</span>
 
 			<div>
-				{renderCoursesList
-					? courses.map((course) => {
-							return <CourseCard course={course} key={course.id} />;
-					  })
-					: 'No Courses available'}
+				{renderCoursesList ? renderCoursesList : 'No Courses available'}
 			</div>
 		</div>
 	);

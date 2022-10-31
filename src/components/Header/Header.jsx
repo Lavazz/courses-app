@@ -26,7 +26,7 @@ function Header() {
 			<Logo />
 			{isAuth && (
 				<span className='wrapper'>
-					<span className='center_block'>{user.name}</span>
+					<span className='center_block'>{user.name || user.email}</span>
 
 					<span className='right_block'>
 						<Button buttonText='Logout' onClick={onLogout} />

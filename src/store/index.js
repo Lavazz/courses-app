@@ -14,3 +14,9 @@ const appInitialState = {
 const store = createStore(rootReducer, appInitialState, composeWithDevTools());
 
 export default store;
+
+// const getStore = () => {
+// 	return createStore(rootReducer, appInitialState, composeWithDevTools());
+// };
+
+// export default getStore;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import './App.css';
 import Header from './components/Header/Header';
@@ -11,11 +11,12 @@ import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchAuthors, fetchCourses } from './services';
+import { fetchAuthors } from './api/authors';
+import { fetchCourses } from './api/courses';
 import { setAuthorActionCreator } from './store/authors/actions';
 import { setCoursesActionCreator } from './store/courses/actions';
 import { useSelector } from 'react-redux';
-import { selectCourses } from './store/courses/selectors';
+import { selectIsAuth } from './store/user/selectors';
 
 function App() {
 	const dispatch = useDispatch();
@@ -39,23 +40,7 @@ function App() {
 			});
 	}, [dispatch]);
 
-	const coursesList = useSelector(selectCourses);
-	const [filteredCourses, setFilteredCourses] = useState(coursesList);
-	const isAuth = useState(!!localStorage.getItem('token'));
-
-	const onSearchChange = (searchTerm) => {
-		if (searchTerm !== '') {
-			const newCoursesList = coursesList.filter((course) => {
-				return (
-					course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-					course.id.toLowerCase().includes(searchTerm.toLowerCase())
-				);
-			});
-			setFilteredCourses(newCoursesList);
-		} else {
-			setFilteredCourses(coursesList);
-		}
-	};
+	const isAuth = useSelector(selectIsAuth);
 
 	return (
 		<div className='App'>
@@ -73,15 +58,7 @@ function App() {
 						<Route path='/' element={<Navigate to='/login' />} />
 					)}
 
-					<Route
-						path='/courses'
-						element={
-							<Courses
-								searchKeyword={onSearchChange}
-								filteredCourses={filteredCourses}
-							/>
-						}
-					/>
+					<Route path='/courses' element={<Courses />} />
 				</Routes>
 			</div>
 		</div>

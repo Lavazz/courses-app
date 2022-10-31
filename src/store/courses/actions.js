@@ -12,9 +12,8 @@ export const deleteCourseActionCreator = (payload) => ({
 	type: DELETE_COURSE,
 	payload,
 });
-export const getCoursesActionCreator = (payload) => ({
+export const getCoursesActionCreator = () => ({
 	type: GET_COURSES,
-	payload,
 });
 export const updatetActionCreator = (payload) => ({
 	type: UPDATE_COURSE,
