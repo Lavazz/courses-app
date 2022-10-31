@@ -9,21 +9,19 @@ import { Button } from '../../common/Button/Button';
 
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectCourses } from '../../store/courses/selectors';
 
-function Courses(props) {
-	const renderCoursesList = props.coursesList.map((course) => {
-		return (
-			<CourseCard course={course} key={course.id} authors={props.authorsList} />
-		);
+function Courses({ searchKeyword, filteredCourses }) {
+	const courses = useSelector(selectCourses);
+	const renderCoursesList = filteredCourses.map((course) => {
+		return <CourseCard course={course} key={course.id} />;
 	});
 
 	return (
 		<div className='Courses'>
 			<span>
-				<SearchBar
-					coursesList={props.coursesList}
-					searchKeyword={props.searchKeyword}
-				/>
+				<SearchBar searchKeyword={searchKeyword} />
 			</span>
 			<span className='right-button'>
 				<Link to='/courses/add'>
@@ -32,15 +30,9 @@ function Courses(props) {
 			</span>
 
 			<div>
-				{renderCoursesList.length
-					? props.coursesList.map((course) => {
-							return (
-								<CourseCard
-									course={course}
-									key={course.id}
-									authors={props.authorsList}
-								/>
-							);
+				{renderCoursesList
+					? courses.map((course) => {
+							return <CourseCard course={course} key={course.id} />;
 					  })
 					: 'No Courses available'}
 			</div>
@@ -49,9 +41,8 @@ function Courses(props) {
 }
 
 Courses.propTypes = {
-	coursesList: PropTypes.array,
-	authorsList: PropTypes.array,
 	searchKeyword: PropTypes.func,
+	coursesList: PropTypes.array,
 };
 
 export default Courses;

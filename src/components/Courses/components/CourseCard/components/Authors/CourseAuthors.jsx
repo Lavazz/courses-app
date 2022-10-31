@@ -1,7 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectAuthors } from '../../../../../../store/authors/selectors';
 import PropTypes from 'prop-types';
 
-function CourseAuthors({ authorsId, authors }) {
+function CourseAuthors({ authorsId }) {
+	const authors = useSelector(selectAuthors);
 	function findArrayElementById(id) {
 		return authors.find((element) => element.id === id);
 	}

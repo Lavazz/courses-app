@@ -11,6 +11,6 @@ export const Button = ({ buttonText, onClick = noop, ...props }) => (
 );
 
 Button.propTypes = {
-	buttonText: PropTypes.string,
+	// buttonText: PropTypes.string,
 	onClick: PropTypes.func,
 };

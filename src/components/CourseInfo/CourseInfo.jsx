@@ -6,11 +6,14 @@ import CourseAuthors from '../Courses/components/CourseCard/components/Authors/C
 import './CourseInfo.css';
 import { getTimeFromMins } from '../../utils/types/function';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectCourses } from '../../store/courses/selectors';
 
-function CourseInfo({ coursesList, authors }) {
+function CourseInfo() {
 	const { courseId } = useParams();
+	const courses = useSelector(selectCourses);
 
-	const course = coursesList.find((element) => {
+	const course = courses.find((element) => {
 		return element.id === courseId;
 	});
 
@@ -42,7 +45,7 @@ function CourseInfo({ coursesList, authors }) {
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Authors: </span>
-						<CourseAuthors authorsId={course.authors} authors={authors} />
+						<CourseAuthors authorsId={course.authors} />
 					</div>
 				</div>
 			</ReactSplit>

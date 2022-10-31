@@ -3,22 +3,45 @@ import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
-import { mockedCoursesList, mockedAuthorsList } from './constants';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchAuthors, fetchCourses } from './services';
+import { setAuthorActionCreator } from './store/authors/actions';
+import { setCoursesActionCreator } from './store/courses/actions';
+import { useSelector } from 'react-redux';
+import { selectCourses } from './store/courses/selectors';
 
 function App() {
-	const [filteredCourses, setFilteredCourses] = useState(mockedCoursesList);
-	const [coursesList] = useState(mockedCoursesList);
-	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
-	const [isAuth, setIsAuth] = useState(!!localStorage.getItem('token'));
-	const [user, setUser] = useState({});
-	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	useEffect(() => {
+		fetchAuthors()
+			.then((result) => {
+				dispatch(setAuthorActionCreator(result));
+			})
+			.catch((e) => {
+				console.error('Failed to fetch authors', e);
+			});
+	}, [dispatch]);
+
+	useEffect(() => {
+		fetchCourses()
+			.then((result) => {
+				dispatch(setCoursesActionCreator(result));
+			})
+			.catch((e) => {
+				console.error('Failed to fetch courses', e);
+			});
+	}, [dispatch]);
+
+	const coursesList = useSelector(selectCourses);
+	const [filteredCourses, setFilteredCourses] = useState(coursesList);
+	const isAuth = useState(!!localStorage.getItem('token'));
 
 	const onSearchChange = (searchTerm) => {
 		if (searchTerm !== '') {
@@ -34,48 +57,16 @@ function App() {
 		}
 	};
 
-	function onCourseUpdate(course) {
-		setFilteredCourses([...filteredCourses, course]);
-	}
-
-	function onAuthorUpdate(author) {
-		setAuthorsList([...authorsList, author]);
-	}
-
-	function onLogout() {
-		localStorage.removeItem('token');
-		setIsAuth(false);
-		navigate('/login');
-		setUser({});
-	}
-
 	return (
 		<div className='App'>
-			<Header onLogout={onLogout} isAuth={isAuth} user={user} />
+			<Header />
 			<div className='component'>
 				<Routes>
 					<Route path='/registration' element={<Registration />} />
-					<Route
-						path='/login'
-						element={<Login setIsAuth={setIsAuth} setAuthUser={setUser} />}
-					/>
-					<Route
-						path='/courses/:courseId'
-						element={
-							<CourseInfo coursesList={filteredCourses} authors={authorsList} />
-						}
-					/>
+					<Route path='/login' element={<Login />} />
+					<Route path='/courses/:courseId' element={<CourseInfo />} />
 
-					<Route
-						path='/courses/add'
-						element={
-							<CreateCourse
-								authorsList={authorsList}
-								updateCourses={onCourseUpdate}
-								updateAuthors={onAuthorUpdate}
-							/>
-						}
-					/>
+					<Route path='/courses/add' element={<CreateCourse />} />
 					{isAuth ? (
 						<Route path='/' element={<Navigate to='/courses' />} />
 					) : (
@@ -86,9 +77,8 @@ function App() {
 						path='/courses'
 						element={
 							<Courses
-								authorsList={authorsList}
-								coursesList={filteredCourses}
 								searchKeyword={onSearchChange}
+								filteredCourses={filteredCourses}
 							/>
 						}
 					/>

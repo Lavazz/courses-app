@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+import { registerPost } from '../../services';
 
 import './Registration.css';
 
@@ -20,15 +21,7 @@ function Registration() {
 			email: emailValue,
 			password: passwordValue,
 		};
-
-		await fetch(`http://localhost:4000/register`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newUser),
-		});
-
+		registerPost(newUser);
 		navigate('/login');
 	}
 

@@ -9,11 +9,18 @@ import './CourseCard.css';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getTimeFromMins } from '../../../../utils/types/function';
+import editImg from '../assets/edit.png';
+import deleteImg from '../assets/delete.png';
+import { useDispatch } from 'react-redux';
+import { deleteCourseActionCreator } from '../../../../store/courses/actions';
 
-function CourseCard({ course, authors }) {
+function CourseCard({ course }) {
+	const dispatch = useDispatch();
+
+	const deleteCourse = () => dispatch(deleteCourseActionCreator(course.id));
 	return (
 		<div className='CourseCard'>
-			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[70, 30]}>
+			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}>
 				<div>
 					<div className='course-title'>{course.title}</div>
 					<br />
@@ -22,7 +29,7 @@ function CourseCard({ course, authors }) {
 				<div>
 					<div className='course-info'>
 						<span className='course-details'>Authors: </span>
-						<CourseAuthors authorsId={course.authors} authors={authors} />
+						<CourseAuthors authorsId={course.authors} />
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Duration: </span>
@@ -37,6 +44,13 @@ function CourseCard({ course, authors }) {
 						<Link to={'/courses/' + course.id}>
 							<Button buttonText='Show course' />
 						</Link>
+						<span className='imageButton'>
+							<Button buttonText={<img src={editImg} alt='Edit' />} />
+							<Button
+								buttonText={<img src={deleteImg} alt='Delete' />}
+								onClick={deleteCourse}
+							/>
+						</span>
 					</div>
 				</div>
 			</ReactSplit>
