@@ -7,7 +7,7 @@ function AuthorItem({ author, buttonText, clickHandler }) {
 	return (
 		<div>
 			<span>{author.name}</span>
-			<Button buttonText={buttonText} onClick={() => clickHandler(author)} />
+			<Button onClick={() => clickHandler(author)}>{buttonText}</Button>
 		</div>
 	);
 }

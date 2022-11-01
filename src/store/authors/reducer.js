@@ -9,7 +9,7 @@ export const authorsReduser = (state = authorInitialState, action) => {
 		case ADD_AUTHOR:
 			return [...state, payload];
 		case SET_AUTHORS:
-			return state.concat(payload);
+			return payload;
 		default:
 			return state;
 	}

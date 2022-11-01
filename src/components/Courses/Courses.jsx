@@ -41,7 +41,7 @@ function Courses() {
 			</span>
 			<span className='right-button'>
 				<Link to='/courses/add'>
-					<Button buttonText='Add new course' />
+					<Button>Add new course</Button>
 				</Link>
 			</span>
 

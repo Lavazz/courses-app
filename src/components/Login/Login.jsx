@@ -50,7 +50,7 @@ function Login() {
 					type='password'
 					lableText='Password'
 				></Input>
-				<Button buttonText='Login' />
+				<Button>Login</Button>
 			</form>
 			If you don't have an account you can{' '}
 			<Link to='/registration'>Registration</Link>

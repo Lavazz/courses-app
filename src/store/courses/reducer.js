@@ -20,7 +20,7 @@ export const coursesReducer = (state = coursesInitialState, action) => {
 				course.id === payload.id ? { ...course, ...payload } : course
 			);
 		case SET_COURSES:
-			return state.concat(payload);
+			return payload;
 		default:
 			return state;
 	}

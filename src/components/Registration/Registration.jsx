@@ -63,7 +63,7 @@ function Registration() {
 						lableText='Password'
 					></Input>
 				</div>
-				<Button buttonText='Registration' />
+				<Button>Registration</Button>
 				<p>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</p>
