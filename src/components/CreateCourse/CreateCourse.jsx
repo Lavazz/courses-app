@@ -4,10 +4,14 @@ import './CreateCourse.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import Moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { getTimeFromMins } from '../../utils/types/function';
+import { useSelector, useDispatch } from 'react-redux';
+import { addAuthorActionCreator } from '../../store/authors/actions';
+import { addCourseActionCreator } from '../../store/courses/actions';
+import { selectAuthors } from '../../store/authors/selectors';
 
-function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
+function CreateCourse() {
+	const authorsList = useSelector(selectAuthors);
 	const [authors, setAuthors] = useState(authorsList);
 	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [descriptionValue, setDescriptionValue] = useState('');
@@ -15,6 +19,7 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const [titleValue, setTitleValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const formatDate = Moment().format('DD/MM/YYYY');
 
@@ -59,10 +64,9 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 	const addAuthor = (event) => {
 		event.preventDefault();
 		const newAuthor = {
-			id: Date.now(),
 			name: nameValue,
 		};
-		updateAuthors(newAuthor);
+		dispatch(addAuthorActionCreator(newAuthor));
 		setAuthors([...authors, newAuthor]);
 		setNameValue('');
 	};
@@ -79,14 +83,13 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 
 		if (Object.keys(errors).length === 0) {
 			const newCourse = {
-				id: Date.now(),
 				title: titleValue,
 				description: descriptionValue,
 				creationDate: formatDate,
 				duration: durationValue,
 				authors: courseAuthors.map((author) => author.id),
 			};
-			updateCourses(newCourse);
+			dispatch(addCourseActionCreator(newCourse));
 		}
 		navigate('/courses');
 	};
@@ -216,11 +219,5 @@ function CreateCourse({ authorsList, updateAuthors, updateCourses }) {
 		</div>
 	);
 }
-
-CreateCourse.propTypes = {
-	authorsList: PropTypes.array,
-	updateAuthors: PropTypes.func,
-	updateCourses: PropTypes.func,
-};
 
 export default CreateCourse;

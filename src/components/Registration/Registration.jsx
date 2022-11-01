@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+import { registerUser } from '../../api/auth';
 
 import './Registration.css';
 
@@ -13,29 +14,22 @@ function Registration() {
 	const [passwordValue, setPasswordValue] = useState('');
 	const navigate = useNavigate();
 
-	async function registerUser(e) {
+	async function registerNewUser(e) {
 		e.preventDefault();
 		const newUser = {
 			name: nameValue,
 			email: emailValue,
 			password: passwordValue,
 		};
-
-		await fetch(`http://localhost:4000/register`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newUser),
+		registerUser(newUser).then(() => {
+			navigate('/login');
 		});
-
-		navigate('/login');
 	}
 
 	return (
 		<div className='Registration'>
 			<p>Registration</p>
-			<form onSubmit={registerUser}>
+			<form onSubmit={registerNewUser}>
 				<div className='input'>
 					<Input
 						placeholderText='Enter name'
@@ -69,7 +63,7 @@ function Registration() {
 						lableText='Password'
 					></Input>
 				</div>
-				<Button buttonText='Registration' />
+				<Button>Registration</Button>
 				<p>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</p>
