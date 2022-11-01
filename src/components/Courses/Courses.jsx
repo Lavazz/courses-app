@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Courses.css';
 
@@ -15,6 +15,9 @@ import { selectCourses } from '../../store/courses/selectors';
 function Courses() {
 	const courses = useSelector(selectCourses);
 	const [filteredCourses, setFilteredCourses] = useState(courses);
+	useEffect(() => {
+		setFilteredCourses(courses);
+	}, [courses]);
 
 	const searchKeyword = (searchTerm) => {
 		if (searchTerm !== '') {

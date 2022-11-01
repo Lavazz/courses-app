@@ -9,8 +9,8 @@ import './CourseCard.css';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getTimeFromMins } from '../../../../utils/types/function';
-import editImg from '../assets/edit.png';
-import deleteImg from '../assets/delete.png';
+import editImg from '../../../../assets/edit.png';
+import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
 import { deleteCourseActionCreator } from '../../../../store/courses/actions';
 

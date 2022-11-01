@@ -8,5 +8,3 @@ export const rootReducer = combineReducers({
 	authors: authorsReduser,
 	user: userReduser,
 });
-
-export const store = configureStore({ reducer: rootReducer });
