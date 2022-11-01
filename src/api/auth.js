@@ -11,7 +11,7 @@ export const fetchUser = async (credentials) => {
 	return await promise.json();
 };
 
-export const registerPost = async (newUser) => {
+export const registerUserPost = async (newUser) => {
 	const promise = await fetch(`http://localhost:4000/register`, {
 		method: 'POST',
 		headers: {

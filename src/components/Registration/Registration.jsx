@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import { registerPost } from '../../api/auth';
+import { registerUserPost } from '../../api/auth';
 
 import './Registration.css';
 
@@ -21,7 +21,9 @@ function Registration() {
 			email: emailValue,
 			password: passwordValue,
 		};
-		registerPost(newUser).then(navigate('/login'));
+		registerUserPost(newUser).then(() => {
+			navigate('/login');
+		});
 	}
 
 	return (
