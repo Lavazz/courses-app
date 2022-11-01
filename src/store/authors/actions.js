@@ -5,7 +5,7 @@ export const addAuthorActionCreator = (payload) => ({
 	type: ADD_AUTHOR,
 	payload,
 });
-export const setAuthorActionCreator = (payload) => ({
+export const setAuthorsActionCreator = (payload) => ({
 	type: SET_AUTHORS,
 	payload,
 });

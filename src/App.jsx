@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchAuthors } from './api/authors';
 import { fetchCourses } from './api/courses';
-import { setAuthorActionCreator } from './store/authors/actions';
+import { setAuthorsActionCreator } from './store/authors/actions';
 import { setCoursesActionCreator } from './store/courses/actions';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from './store/user/selectors';
@@ -23,7 +23,7 @@ function App() {
 	useEffect(() => {
 		fetchAuthors()
 			.then((result) => {
-				dispatch(setAuthorActionCreator(result));
+				dispatch(setAuthorsActionCreator(result));
 			})
 			.catch((e) => {
 				console.error('Failed to fetch authors', e);

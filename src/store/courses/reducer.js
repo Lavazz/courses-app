@@ -17,15 +17,7 @@ export const coursesReducer = (state = coursesInitialState, action) => {
 			return [...state, payload];
 		case UPDATE_COURSE:
 			return state.map((course) =>
-				course.id === payload.id
-					? {
-							...course,
-							title: payload.title,
-							description: payload.description,
-							authors: payload.authors,
-							duration: payload.duration,
-					  }
-					: course
+				course.id === payload.id ? { ...course, ...payload } : course
 			);
 		case SET_COURSES:
 			return state.concat(payload);

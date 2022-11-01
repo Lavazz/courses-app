@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import { registerUserPost } from '../../api/auth';
+import { registerUser } from '../../api/auth';
 
 import './Registration.css';
 
@@ -14,14 +14,14 @@ function Registration() {
 	const [passwordValue, setPasswordValue] = useState('');
 	const navigate = useNavigate();
 
-	async function registerUser(e) {
+	async function registerNewUser(e) {
 		e.preventDefault();
 		const newUser = {
 			name: nameValue,
 			email: emailValue,
 			password: passwordValue,
 		};
-		registerUserPost(newUser).then(() => {
+		registerUser(newUser).then(() => {
 			navigate('/login');
 		});
 	}
@@ -29,7 +29,7 @@ function Registration() {
 	return (
 		<div className='Registration'>
 			<p>Registration</p>
-			<form onSubmit={registerUser}>
+			<form onSubmit={registerNewUser}>
 				<div className='input'>
 					<Input
 						placeholderText='Enter name'
