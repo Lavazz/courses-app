@@ -45,9 +45,11 @@ function CourseCard({ course }) {
 							<Button>Show course</Button>
 						</Link>
 						<span className='imageButton'>
-							<Button> {<img src={editImg} alt='Edit' />} </Button>
+							<Button>
+								<img src={editImg} alt='Edit' />
+							</Button>
 							<Button onClick={deleteCourse}>
-								{<img src={deleteImg} alt='Delete' />}
+								<img src={deleteImg} alt='Delete' />
 							</Button>
 						</span>
 					</div>

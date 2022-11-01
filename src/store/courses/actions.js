@@ -6,7 +6,7 @@ import { UPDATE_COURSE } from './types';
 
 export const addCourseActionCreator = (payload) => ({
 	type: ADD_COURSE,
-	payload,
+	payload: { ...payload, id: Date.now() },
 });
 export const deleteCourseActionCreator = (payload) => ({
 	type: DELETE_COURSE,

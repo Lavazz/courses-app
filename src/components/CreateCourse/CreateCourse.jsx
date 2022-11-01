@@ -64,7 +64,6 @@ function CreateCourse() {
 	const addAuthor = (event) => {
 		event.preventDefault();
 		const newAuthor = {
-			id: Date.now(),
 			name: nameValue,
 		};
 		dispatch(addAuthorActionCreator(newAuthor));
@@ -84,7 +83,6 @@ function CreateCourse() {
 
 		if (Object.keys(errors).length === 0) {
 			const newCourse = {
-				id: Date.now(),
 				title: titleValue,
 				description: descriptionValue,
 				creationDate: formatDate,
