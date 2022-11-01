@@ -1,4 +1,4 @@
-const host = 'http://localhost:4000';
+import { host } from '../constants';
 
 export const fetchUser = async (credentials) => {
 	const promise = await fetch(host + '/login', {
