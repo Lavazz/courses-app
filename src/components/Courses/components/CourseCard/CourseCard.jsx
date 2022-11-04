@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../../../common/Button/Button';
 import CourseAuthors from './components/Authors/CourseAuthors';
@@ -12,12 +13,25 @@ import { getTimeFromMins } from '../../../../utils/types/function';
 import editImg from '../../../../assets/edit.png';
 import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
-import { deleteCourseActionCreator } from '../../../../store/courses/actions';
+import { deleteCourseThunk } from '../../../../store/courses/thunk';
+//import { PrivateRoute } from '../../../../PrivateRoute/PrivateRoute';
+import { isAdmin } from '../../../../utils/isAdmin';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../../../store/user/selectors';
 
 function CourseCard({ course }) {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const user = useSelector(selectUser);
 
-	const deleteCourse = () => dispatch(deleteCourseActionCreator(course.id));
+	const deleteCourse = () => {
+		dispatch(deleteCourseThunk(course.id));
+	};
+
+	const updateCourse = () => {
+		navigate('/courses/update/' + course.id);
+	};
+
 	return (
 		<div className='CourseCard'>
 			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}>
@@ -44,14 +58,18 @@ function CourseCard({ course }) {
 						<Link to={'/courses/' + course.id}>
 							<Button>Show course</Button>
 						</Link>
-						<span className='imageButton'>
-							<Button>
-								<img src={editImg} alt='Edit' />
-							</Button>
-							<Button onClick={deleteCourse}>
-								<img src={deleteImg} alt='Delete' />
-							</Button>
-						</span>
+						{/* <PrivateRoute> */}
+						{isAdmin(user) && (
+							<span className='imageButton'>
+								<Button onClick={updateCourse}>
+									<img src={editImg} alt='Edit' />
+								</Button>
+								<Button onClick={deleteCourse}>
+									<img src={deleteImg} alt='Delete' />
+								</Button>
+							</span>
+						)}
+						{/* </PrivateRoute> */}
 					</div>
 				</div>
 			</ReactSplit>
@@ -61,7 +79,6 @@ function CourseCard({ course }) {
 
 CourseCard.propTypes = {
 	course: PropTypes.object,
-	authors: PropTypes.array,
 };
 
 export default CourseCard;

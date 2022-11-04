@@ -3,7 +3,7 @@ import { SET_AUTHORS } from './types';
 
 export const addAuthorActionCreator = (payload) => ({
 	type: ADD_AUTHOR,
-	payload: { ...payload, id: Date.now() },
+	payload,
 });
 export const setAuthorsActionCreator = (payload) => ({
 	type: SET_AUTHORS,

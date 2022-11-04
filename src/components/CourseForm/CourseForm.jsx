@@ -1,27 +1,40 @@
 import React, { useState } from 'react';
 import AuthorItem from './components/AuthorItem/AuthorItem';
-import './CreateCourse.css';
+import './CourseForm.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
-import Moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getTimeFromMins } from '../../utils/types/function';
 import { useSelector, useDispatch } from 'react-redux';
-import { addAuthorActionCreator } from '../../store/authors/actions';
-import { addCourseActionCreator } from '../../store/courses/actions';
+import { addCourseThunk, updateCourseThunk } from '../../store/courses/thunk';
+import { addAuthorThunk } from '../../store/authors/thunk';
 import { selectAuthors } from '../../store/authors/selectors';
+import { selectCourses } from '../../store/courses/selectors';
 
 function CreateCourse() {
+	const { courseId } = useParams();
+	const courses = useSelector(selectCourses);
+	const course = courses.find((course) => course.id === courseId);
 	const authorsList = useSelector(selectAuthors);
 	const [authors, setAuthors] = useState(authorsList);
-	const [courseAuthors, setCourseAuthors] = useState([]);
-	const [descriptionValue, setDescriptionValue] = useState('');
+	const [courseAuthors, setCourseAuthors] = useState(
+		courseId ? prepareAuthorsToCourse(course) : []
+	);
+	const [descriptionValue, setDescriptionValue] = useState(
+		courseId ? course.description : ''
+	);
 	const [nameValue, setNameValue] = useState('');
-	const [titleValue, setTitleValue] = useState('');
-	const [durationValue, setDurationValue] = useState('');
+	const [titleValue, setTitleValue] = useState(courseId ? course.title : '');
+	const [durationValue, setDurationValue] = useState(
+		courseId ? course.duration : ''
+	);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const formatDate = Moment().format('DD/MM/YYYY');
+	function prepareAuthorsToCourse(course) {
+		return course.authors.map((autId) =>
+			authorsList.find((element) => element.id === autId)
+		);
+	}
 
 	function addAuthorToCourse(author) {
 		setCourseAuthors([...courseAuthors, author]);
@@ -61,13 +74,16 @@ function CreateCourse() {
 		);
 	});
 
+	const updateAuthorsInPage = (newAuthor) =>
+		setAuthors([...authors, newAuthor]);
+
 	const addAuthor = (event) => {
 		event.preventDefault();
 		const newAuthor = {
 			name: nameValue,
 		};
-		dispatch(addAuthorActionCreator(newAuthor));
-		setAuthors([...authors, newAuthor]);
+		dispatch(addAuthorThunk(newAuthor, updateAuthorsInPage));
+
 		setNameValue('');
 	};
 
@@ -85,11 +101,12 @@ function CreateCourse() {
 			const newCourse = {
 				title: titleValue,
 				description: descriptionValue,
-				creationDate: formatDate,
-				duration: durationValue,
+				duration: Number(durationValue),
 				authors: courseAuthors.map((author) => author.id),
 			};
-			dispatch(addCourseActionCreator(newCourse));
+			courseId
+				? dispatch(updateCourseThunk(newCourse, courseId))
+				: dispatch(addCourseThunk(newCourse));
 		}
 		navigate('/courses');
 	};
@@ -139,13 +156,21 @@ function CreateCourse() {
 						placeholder='Enter title'
 					/>
 				</label>
-
-				<input
-					type='submit'
-					value='Create course'
-					className='button'
-					form='addCourse'
-				/>
+				{courseId ? (
+					<input
+						type='submit'
+						value='Update course'
+						className='button'
+						form='addCourse'
+					/>
+				) : (
+					<input
+						type='submit'
+						value='Create course'
+						className='button'
+						form='addCourse'
+					/>
+				)}
 			</div>
 			<div>
 				<label>

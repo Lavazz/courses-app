@@ -8,16 +8,25 @@ import SearchBar from './components/SearchBar/SearchBar';
 import { Button } from '../../common/Button/Button';
 
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../store/courses/selectors';
+import { selectUser } from '../../store/user/selectors';
+//import { PrivateRoute } from '../../PrivateRoute/PrivateRoute';
+import { isAdmin } from '../../utils/isAdmin';
 
 function Courses() {
 	const courses = useSelector(selectCourses);
-	const [filteredCourses, setFilteredCourses] = useState(courses);
+	const userState = useSelector(selectUser);
 	useEffect(() => {
 		setFilteredCourses(courses);
 	}, [courses]);
+
+	useEffect(() => {
+		setUser(userState);
+	}, [userState]);
+
+	const [user, setUser] = useState(userState);
+	const [filteredCourses, setFilteredCourses] = useState(courses);
 
 	const searchKeyword = (searchTerm) => {
 		if (searchTerm !== '') {
@@ -42,22 +51,21 @@ function Courses() {
 			<span>
 				<SearchBar searchKeyword={searchKeyword} />
 			</span>
-			<span className='right-button'>
-				<Link to='/courses/add'>
-					<Button>Add new course</Button>
-				</Link>
-			</span>
 
+			{/* <PrivateRoute> */}
+			{isAdmin(user) && (
+				<span className='right-button'>
+					<Link to='/courses/add'>
+						<Button>Add new course</Button>
+					</Link>
+				</span>
+			)}
+			{/* </PrivateRoute> */}
 			<div>
 				{renderCoursesList ? renderCoursesList : 'No Courses available'}
 			</div>
 		</div>
 	);
 }
-
-Courses.propTypes = {
-	searchKeyword: PropTypes.func,
-	coursesList: PropTypes.array,
-};
 
 export default Courses;

@@ -8,3 +8,17 @@ export const fetchAuthors = async () => {
 	const result = await promise.json();
 	return result.result;
 };
+
+export const addAuthor = async (newAuthor) => {
+	const promise = await fetch(host + '/authors/add', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+		body: JSON.stringify(newAuthor),
+	});
+
+	const result = await promise.json();
+	return result;
+};
