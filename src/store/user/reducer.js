@@ -15,7 +15,7 @@ export const userReduser = (state = userInitialState, action) => {
 	switch (type) {
 		case DELETE_USER:
 			return {
-				userInitialState,
+				...userInitialState,
 				isAuth: false,
 				token: '',
 			};

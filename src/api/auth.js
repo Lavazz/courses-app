@@ -22,16 +22,16 @@ export const registerUser = async (newUser) => {
 	return promise.json();
 };
 
-export const fetchUser = async (token) => {
+export const fetchUser = async () => {
 	const promise = await fetch(host + '/users/me', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: token,
+			Authorization: localStorage.getItem('token'),
 		},
 	});
 
-	return promise.json().result;
+	return promise.json();
 };
 
 export const logoutUser = async () => {

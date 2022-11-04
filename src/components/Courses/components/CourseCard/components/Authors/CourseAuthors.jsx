@@ -24,7 +24,6 @@ function CourseAuthors({ authorsId }) {
 
 CourseAuthors.propTypes = {
 	authorsId: PropTypes.array,
-	authors: PropTypes.array,
 };
 
 export default CourseAuthors;

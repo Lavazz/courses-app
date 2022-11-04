@@ -12,8 +12,10 @@ import editImg from '../../../../assets/edit.png';
 import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
 import { deleteCourseThunk } from '../../../../store/courses/thunk';
+import { useAuth } from '../../../../hooks/useAuth';
 
 function CourseForm({ course }) {
+	const { isAdmin } = useAuth();
 	const dispatch = useDispatch();
 
 	const deleteCourse = () => {
@@ -47,18 +49,18 @@ function CourseForm({ course }) {
 							<Button>Show course</Button>
 						</Link>
 
-						{/* {isAdmin(user) && ( */}
-						<span className='imageButton'>
-							<Link to={'/courses/update/' + course.id}>
-								<Button>
-									<img src={editImg} alt='Edit' />
+						{isAdmin && (
+							<span className='imageButton'>
+								<Link to={`/courses/update/${course.id}`}>
+									<Button>
+										<img src={editImg} alt='Edit' />
+									</Button>
+								</Link>
+								<Button onClick={deleteCourse}>
+									<img src={deleteImg} alt='Delete' />
 								</Button>
-							</Link>
-							<Button onClick={deleteCourse}>
-								<img src={deleteImg} alt='Delete' />
-							</Button>
-						</span>
-						{/* )} */}
+							</span>
+						)}
 					</div>
 				</div>
 			</ReactSplit>

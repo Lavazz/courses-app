@@ -15,11 +15,11 @@ export const loginUserThunk = (credentials) => {
 	};
 };
 
-export const fetchUserThunk = (token) => {
+export const fetchUserThunk = () => {
 	return async function (dispatch) {
-		fetchUser(token)
+		fetchUser()
 			.then((result) => {
-				dispatch(setUserActionCreator(result));
+				dispatch(setUserActionCreator(result.result));
 			})
 			.catch((e) => console.error('Failed fetch user'));
 	};
@@ -28,9 +28,10 @@ export const fetchUserThunk = (token) => {
 export const logoutUserThunk = () => {
 	return async function (dispatch) {
 		logoutUser()
-			.then(() => {
-				dispatch(deleteUserActionCreator());
+			.then((result) => {
+				console.log('3 delete: ', result);
 				localStorage.removeItem('token');
+				dispatch(deleteUserActionCreator());
 			})
 			.catch((e) => console.error('Failed delete user'));
 	};

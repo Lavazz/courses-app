@@ -10,11 +10,10 @@ import { addAuthorThunk } from '../../store/authors/thunk';
 import { selectAuthors } from '../../store/authors/selectors';
 import { selectCourses } from '../../store/courses/selectors';
 
-function CreateCourse() {
+function CreateCourse({ isEdit }) {
 	const { courseId } = useParams();
 	const courses = useSelector(selectCourses);
 	const course = courses.find((course) => course.id === courseId);
-	const isEdit = !!course;
 	const authorsList = useSelector(selectAuthors);
 	const [authors, setAuthors] = useState(authorsList);
 	const [courseAuthors, setCourseAuthors] = useState(
@@ -100,21 +99,18 @@ function CreateCourse() {
 
 		if (Object.keys(errors).length === 0) {
 			const newCourse = {
+				id: courseId,
 				title: titleValue,
 				description: descriptionValue,
 				duration: Number(durationValue),
 				authors: courseAuthors.map((author) => author.id),
 			};
-			addOrUpdate(newCourse);
+			dispatch(postCourseThunk(newCourse));
 		}
 		navigate('/courses');
 	};
 
-	const addOrUpdate = (newCourse) => {
-		isEdit
-			? dispatch(updateCourseThunk(newCourse))
-			: dispatch(addCourseThunk({ ...newCourse, id: courseId }));
-	};
+	const postCourseThunk = isEdit ? updateCourseThunk : addCourseThunk;
 
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);

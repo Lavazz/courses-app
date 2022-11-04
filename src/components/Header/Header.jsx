@@ -5,7 +5,7 @@ import { Button } from '../../common/Button/Button';
 
 import './Header.css';
 import { useDispatch } from 'react-redux';
-import { useAuth } from '../../customeHooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { logoutUserThunk } from '../../store/user/thunk';
 

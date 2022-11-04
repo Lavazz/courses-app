@@ -10,7 +10,7 @@ import { Button } from '../../common/Button/Button';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../store/courses/selectors';
-import { useAuth } from '../../customeHooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 function Courses() {
 	const courses = useSelector(selectCourses);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../customeHooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 export function PrivateRoute({ children }) {
 	const { isAdmin } = useAuth();
 
-	return <>{isAdmin ? children : <Navigate to='/courses' />} </>;
+	return isAdmin ? children : <Navigate to='/courses' />;
 }

@@ -5,7 +5,7 @@ export const getAuthorsThunk = () => {
 	return function (dispatch) {
 		fetchAuthors()
 			.then((result) => {
-				dispatch(setAuthorsActionCreator(result));
+				dispatch(setAuthorsActionCreator(result.result));
 			})
 			.catch((e) => {
 				console.error('Failed to fetch authors', e);

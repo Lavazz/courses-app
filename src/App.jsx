@@ -38,7 +38,7 @@ function App() {
 						path='/courses/add'
 						element={
 							<PrivateRoute>
-								<CourseForm />
+								<CourseForm isEdit={false} />
 							</PrivateRoute>
 						}
 					/>
@@ -52,7 +52,7 @@ function App() {
 						path='/courses/update/:courseId'
 						element={
 							<PrivateRoute>
-								<CourseForm />
+								<CourseForm isEdit={true} />
 							</PrivateRoute>
 						}
 					/>
