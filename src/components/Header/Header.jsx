@@ -4,14 +4,13 @@ import { Logo } from './components/Logo/Logo';
 import { Button } from '../../common/Button/Button';
 
 import './Header.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectUser, selectIsAuth } from '../../store/user/selectors';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../../customeHooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { logoutUserThunk } from '../../store/user/thunk';
 
 function Header() {
-	const user = useSelector(selectUser);
-	const isAuth = useSelector(selectIsAuth);
+	const { user, isAuth } = useAuth();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 

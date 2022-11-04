@@ -47,9 +47,9 @@ export const deleteCourseThunk = (courseId) => {
 	};
 };
 
-export const updateCourseThunk = (changedCourse, courseId) => {
+export const updateCourseThunk = (changedCourse) => {
 	return function (dispatch) {
-		updateCourse(changedCourse, courseId)
+		updateCourse(changedCourse)
 			.then((result) => {
 				dispatch(updateCourseActionCreator(result.result));
 			})

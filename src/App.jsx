@@ -48,7 +48,14 @@ function App() {
 						<Route path='/' element={<Navigate to='/login' />} />
 					)}
 					<Route path='/courses' element={<Courses />} />
-					<Route path='/courses/update/:courseId' element={<CourseForm />} />
+					<Route
+						path='/courses/update/:courseId'
+						element={
+							<PrivateRoute>
+								<CourseForm />
+							</PrivateRoute>
+						}
+					/>
 				</Routes>
 			</div>
 		</div>

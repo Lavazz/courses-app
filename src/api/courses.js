@@ -18,13 +18,12 @@ export const deleteCourse = async (courseId) => {
 			Authorization: localStorage.getItem('token'),
 		},
 	});
-	const result = await promise.json();
-	return result;
+
+	return promise.json();
 };
 
-export const updateCourse = async (updatedCourse, courseId) => {
-	console.log('update Course new course: ', updatedCourse);
-	const promise = await fetch(host + '/courses/' + courseId, {
+export const updateCourse = async (updatedCourse) => {
+	const promise = await fetch(host + '/courses/' + updatedCourse.id, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
@@ -32,8 +31,8 @@ export const updateCourse = async (updatedCourse, courseId) => {
 		},
 		body: JSON.stringify(updatedCourse),
 	});
-	const result = await promise.json();
-	return result;
+
+	return promise.json();
 };
 
 export const addCourse = async (newCourse) => {
@@ -47,6 +46,5 @@ export const addCourse = async (newCourse) => {
 		body: JSON.stringify(newCourse),
 	});
 
-	const result = await promise.json();
-	return result;
+	return promise.json();
 };

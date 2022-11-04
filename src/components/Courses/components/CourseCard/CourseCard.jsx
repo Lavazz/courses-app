@@ -1,6 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import { Button } from '../../../../common/Button/Button';
 import CourseAuthors from './components/Authors/CourseAuthors';
 
@@ -14,22 +12,12 @@ import editImg from '../../../../assets/edit.png';
 import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
 import { deleteCourseThunk } from '../../../../store/courses/thunk';
-//import { PrivateRoute } from '../../../../PrivateRoute/PrivateRoute';
-import { isAdmin } from '../../../../utils/isAdmin';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../../../store/user/selectors';
 
-function CourseCard({ course }) {
+function CourseForm({ course }) {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const user = useSelector(selectUser);
 
 	const deleteCourse = () => {
 		dispatch(deleteCourseThunk(course.id));
-	};
-
-	const updateCourse = () => {
-		navigate('/courses/update/' + course.id);
 	};
 
 	return (
@@ -58,18 +46,19 @@ function CourseCard({ course }) {
 						<Link to={'/courses/' + course.id}>
 							<Button>Show course</Button>
 						</Link>
-						{/* <PrivateRoute> */}
-						{isAdmin(user) && (
-							<span className='imageButton'>
-								<Button onClick={updateCourse}>
+
+						{/* {isAdmin(user) && ( */}
+						<span className='imageButton'>
+							<Link to={'/courses/update/' + course.id}>
+								<Button>
 									<img src={editImg} alt='Edit' />
 								</Button>
-								<Button onClick={deleteCourse}>
-									<img src={deleteImg} alt='Delete' />
-								</Button>
-							</span>
-						)}
-						{/* </PrivateRoute> */}
+							</Link>
+							<Button onClick={deleteCourse}>
+								<img src={deleteImg} alt='Delete' />
+							</Button>
+						</span>
+						{/* )} */}
 					</div>
 				</div>
 			</ReactSplit>
@@ -77,8 +66,8 @@ function CourseCard({ course }) {
 	);
 }
 
-CourseCard.propTypes = {
+CourseForm.propTypes = {
 	course: PropTypes.object,
 };
 
-export default CourseCard;
+export default CourseForm;

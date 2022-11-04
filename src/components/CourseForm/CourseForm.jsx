@@ -14,18 +14,19 @@ function CreateCourse() {
 	const { courseId } = useParams();
 	const courses = useSelector(selectCourses);
 	const course = courses.find((course) => course.id === courseId);
+	const isEdit = !!course;
 	const authorsList = useSelector(selectAuthors);
 	const [authors, setAuthors] = useState(authorsList);
 	const [courseAuthors, setCourseAuthors] = useState(
-		courseId ? prepareAuthorsToCourse(course) : []
+		isEdit ? prepareAuthorsToCourse(course) : []
 	);
 	const [descriptionValue, setDescriptionValue] = useState(
-		courseId ? course.description : ''
+		isEdit ? course.description : ''
 	);
 	const [nameValue, setNameValue] = useState('');
-	const [titleValue, setTitleValue] = useState(courseId ? course.title : '');
+	const [titleValue, setTitleValue] = useState(isEdit ? course.title : '');
 	const [durationValue, setDurationValue] = useState(
-		courseId ? course.duration : ''
+		isEdit ? course.duration : ''
 	);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -104,11 +105,15 @@ function CreateCourse() {
 				duration: Number(durationValue),
 				authors: courseAuthors.map((author) => author.id),
 			};
-			courseId
-				? dispatch(updateCourseThunk(newCourse, courseId))
-				: dispatch(addCourseThunk(newCourse));
+			addOrUpdate(newCourse);
 		}
 		navigate('/courses');
+	};
+
+	const addOrUpdate = (newCourse) => {
+		isEdit
+			? dispatch(updateCourseThunk(newCourse))
+			: dispatch(addCourseThunk({ ...newCourse, id: courseId }));
 	};
 
 	function isNumber(n) {
@@ -156,21 +161,13 @@ function CreateCourse() {
 						placeholder='Enter title'
 					/>
 				</label>
-				{courseId ? (
-					<input
-						type='submit'
-						value='Update course'
-						className='button'
-						form='addCourse'
-					/>
-				) : (
-					<input
-						type='submit'
-						value='Create course'
-						className='button'
-						form='addCourse'
-					/>
-				)}
+
+				<input
+					type='submit'
+					className='button'
+					form='addCourse'
+					value={isEdit ? 'Update course' : 'Create course'}
+				/>
 			</div>
 			<div>
 				<label>

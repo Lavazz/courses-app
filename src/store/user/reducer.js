@@ -15,12 +15,9 @@ export const userReduser = (state = userInitialState, action) => {
 	switch (type) {
 		case DELETE_USER:
 			return {
-				...state,
-				name: '',
-				email: '',
+				userInitialState,
 				isAuth: false,
 				token: '',
-				role: '',
 			};
 		case SET_USER:
 			return {
@@ -32,7 +29,7 @@ export const userReduser = (state = userInitialState, action) => {
 				role: payload.role,
 			};
 		case GET_USER:
-			return payload;
+			return { ...state, user: payload };
 		default:
 			return state;
 	}

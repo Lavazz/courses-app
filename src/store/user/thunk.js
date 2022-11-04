@@ -28,11 +28,9 @@ export const fetchUserThunk = (token) => {
 export const logoutUserThunk = () => {
 	return async function (dispatch) {
 		logoutUser()
-			.then((data) => {
-				if (data && data.successful) {
-					dispatch(deleteUserActionCreator());
-					localStorage.removeItem('token');
-				}
+			.then(() => {
+				dispatch(deleteUserActionCreator());
+				localStorage.removeItem('token');
 			})
 			.catch((e) => console.error('Failed delete user'));
 	};

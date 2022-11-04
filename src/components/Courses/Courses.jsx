@@ -10,23 +10,16 @@ import { Button } from '../../common/Button/Button';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../store/courses/selectors';
-import { selectUser } from '../../store/user/selectors';
-//import { PrivateRoute } from '../../PrivateRoute/PrivateRoute';
-import { isAdmin } from '../../utils/isAdmin';
+import { useAuth } from '../../customeHooks/useAuth';
 
 function Courses() {
 	const courses = useSelector(selectCourses);
-	const userState = useSelector(selectUser);
+	const { isAdmin } = useAuth();
+	const [filteredCourses, setFilteredCourses] = useState(courses);
+
 	useEffect(() => {
 		setFilteredCourses(courses);
 	}, [courses]);
-
-	useEffect(() => {
-		setUser(userState);
-	}, [userState]);
-
-	const [user, setUser] = useState(userState);
-	const [filteredCourses, setFilteredCourses] = useState(courses);
 
 	const searchKeyword = (searchTerm) => {
 		if (searchTerm !== '') {
@@ -52,15 +45,13 @@ function Courses() {
 				<SearchBar searchKeyword={searchKeyword} />
 			</span>
 
-			{/* <PrivateRoute> */}
-			{isAdmin(user) && (
+			{isAdmin && (
 				<span className='right-button'>
 					<Link to='/courses/add'>
 						<Button>Add new course</Button>
 					</Link>
 				</span>
 			)}
-			{/* </PrivateRoute> */}
 			<div>
 				{renderCoursesList ? renderCoursesList : 'No Courses available'}
 			</div>

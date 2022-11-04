@@ -8,7 +8,7 @@ export const loginUser = async (credentials) => {
 		},
 		body: JSON.stringify(credentials),
 	});
-	return await promise.json();
+	return promise.json();
 };
 
 export const registerUser = async (newUser) => {
@@ -19,7 +19,7 @@ export const registerUser = async (newUser) => {
 		},
 		body: JSON.stringify(newUser),
 	});
-	return await promise.json();
+	return promise.json();
 };
 
 export const fetchUser = async (token) => {
@@ -30,12 +30,11 @@ export const fetchUser = async (token) => {
 			Authorization: token,
 		},
 	});
-	const result = await promise.json();
-	return result.result;
+
+	return promise.json().result;
 };
 
 export const logoutUser = async () => {
-	console.log('In delete token: ', localStorage.getItem('token'));
 	const promise = await fetch(host + '/logout', {
 		method: 'DELETE',
 		headers: {
@@ -43,7 +42,6 @@ export const logoutUser = async () => {
 			Authorization: localStorage.getItem('token'),
 		},
 	});
-	const result = await promise.json();
 
-	return result;
+	return promise.json();
 };

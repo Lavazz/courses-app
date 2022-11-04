@@ -5,8 +5,7 @@ export const fetchAuthors = async () => {
 		method: 'GET',
 	});
 
-	const result = await promise.json();
-	return result.result;
+	return promise.json();
 };
 
 export const addAuthor = async (newAuthor) => {
@@ -19,6 +18,5 @@ export const addAuthor = async (newAuthor) => {
 		body: JSON.stringify(newAuthor),
 	});
 
-	const result = await promise.json();
-	return result;
+	return promise.json();
 };
