@@ -35,13 +35,11 @@ export const fetchUser = async () => {
 };
 
 export const logoutUser = async () => {
-	const promise = await fetch(host + '/logout', {
+	return fetch(host + '/logout', {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: localStorage.getItem('token'),
 		},
 	});
-
-	return promise.json();
 };

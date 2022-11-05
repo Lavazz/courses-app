@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { selectIsAuth } from './store/user/selectors';
 import { getAuthorsThunk } from './store/authors/thunk';
 import { getCoursesThunk } from './store/courses/thunk';
+import { fetchUserThunk } from './store/user/thunk';
 import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 	useEffect(() => {
 		dispatch(getAuthorsThunk());
 		dispatch(getCoursesThunk());
+		dispatch(fetchUserThunk());
 	}, [dispatch]);
 
 	const isAuth = useSelector(selectIsAuth);
@@ -38,7 +40,7 @@ function App() {
 						path='/courses/add'
 						element={
 							<PrivateRoute>
-								<CourseForm isEdit={false} />
+								<CourseForm />
 							</PrivateRoute>
 						}
 					/>
@@ -52,7 +54,7 @@ function App() {
 						path='/courses/update/:courseId'
 						element={
 							<PrivateRoute>
-								<CourseForm isEdit={true} />
+								<CourseForm isEdit />
 							</PrivateRoute>
 						}
 					/>

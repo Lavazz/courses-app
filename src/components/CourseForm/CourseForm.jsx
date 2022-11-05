@@ -10,7 +10,7 @@ import { addAuthorThunk } from '../../store/authors/thunk';
 import { selectAuthors } from '../../store/authors/selectors';
 import { selectCourses } from '../../store/courses/selectors';
 
-function CreateCourse({ isEdit }) {
+function CreateCourse({ isEdit = false }) {
 	const { courseId } = useParams();
 	const courses = useSelector(selectCourses);
 	const course = courses.find((course) => course.id === courseId);
