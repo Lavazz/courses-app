@@ -13,12 +13,11 @@ export const getAuthorsThunk = () => {
 	};
 };
 
-export const addAuthorThunk = (newAuthor, updateAuthorsInPage) => {
+export const addAuthorThunk = (newAuthor) => {
 	return async function (dispatch) {
 		return addAuthor(newAuthor)
 			.then((result) => {
 				dispatch(addAuthorActionCreator(result.result));
-				updateAuthorsInPage(result.result);
 			})
 			.catch((e) => {
 				console.error('Failed to fetch author', e);

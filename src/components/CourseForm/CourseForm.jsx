@@ -9,16 +9,21 @@ import { addCourseThunk, updateCourseThunk } from '../../store/courses/thunk';
 import { addAuthorThunk } from '../../store/authors/thunk';
 import { selectAuthors } from '../../store/authors/selectors';
 import { selectCourses } from '../../store/courses/selectors';
+import differenceBy from 'lodash/differenceBy';
 
 function CreateCourse({ isEdit = false }) {
 	const { courseId } = useParams();
 	const courses = useSelector(selectCourses);
 	const course = courses.find((course) => course.id === courseId);
-	const authorsList = useSelector(selectAuthors);
-	const [authors, setAuthors] = useState(authorsList);
+	const allAuthors = useSelector(selectAuthors);
 	const [courseAuthors, setCourseAuthors] = useState(
 		isEdit ? prepareAuthorsToCourse(course) : []
 	);
+
+	const [freeAuthors, setfreeAuthors] = useState(
+		differenceBy(allAuthors, courseAuthors, 'id')
+	);
+
 	const [descriptionValue, setDescriptionValue] = useState(
 		isEdit ? course.description : ''
 	);
@@ -32,21 +37,21 @@ function CreateCourse({ isEdit = false }) {
 
 	function prepareAuthorsToCourse(course) {
 		return course.authors.map((autId) =>
-			authorsList.find((element) => element.id === autId)
+			allAuthors.find((element) => element.id === autId)
 		);
 	}
 
 	function addAuthorToCourse(author) {
 		setCourseAuthors([...courseAuthors, author]);
-		setAuthors(
-			authors.filter((a) => {
+		setfreeAuthors(
+			freeAuthors.filter((a) => {
 				return a.id !== author.id;
 			})
 		);
 	}
 
 	function deleteAuthorFromCourse(author) {
-		setAuthors([...authors, author]);
+		setfreeAuthors([...freeAuthors, author]);
 		setCourseAuthors(
 			courseAuthors.filter((a) => {
 				return a.id !== author.id;
@@ -54,7 +59,7 @@ function CreateCourse({ isEdit = false }) {
 		);
 	}
 
-	const authorItems = authors.map((author) => (
+	const authorItems = freeAuthors.map((author) => (
 		<AuthorItem
 			author={author}
 			key={author.id}
@@ -74,15 +79,12 @@ function CreateCourse({ isEdit = false }) {
 		);
 	});
 
-	const updateAuthorsInPage = (newAuthor) =>
-		setAuthors([...authors, newAuthor]);
-
 	const addAuthor = (event) => {
 		event.preventDefault();
 		const newAuthor = {
 			name: nameValue,
 		};
-		dispatch(addAuthorThunk(newAuthor, updateAuthorsInPage));
+		dispatch(addAuthorThunk(newAuthor));
 
 		setNameValue('');
 	};
