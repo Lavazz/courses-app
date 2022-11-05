@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './App.css';
 import Header from './components/Header/Header';
@@ -10,7 +10,6 @@ import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from './store/user/selectors';
 import { getAuthorsThunk } from './store/authors/thunk';

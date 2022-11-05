@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthorItem from './components/AuthorItem/AuthorItem';
 import './CourseForm.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
@@ -20,7 +20,7 @@ function CreateCourse({ isEdit = false }) {
 		isEdit ? prepareAuthorsToCourse(course) : []
 	);
 
-	const [freeAuthors, setfreeAuthors] = useState(
+	const [freeAuthors, setFreeAuthors] = useState(
 		differenceBy(allAuthors, courseAuthors, 'id')
 	);
 
@@ -35,6 +35,10 @@ function CreateCourse({ isEdit = false }) {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	useEffect(() => {
+		setFreeAuthors(differenceBy(allAuthors, courseAuthors, 'id'));
+	}, [allAuthors, courseAuthors]);
+
 	function prepareAuthorsToCourse(course) {
 		return course.authors.map((autId) =>
 			allAuthors.find((element) => element.id === autId)
@@ -43,7 +47,7 @@ function CreateCourse({ isEdit = false }) {
 
 	function addAuthorToCourse(author) {
 		setCourseAuthors([...courseAuthors, author]);
-		setfreeAuthors(
+		setFreeAuthors(
 			freeAuthors.filter((a) => {
 				return a.id !== author.id;
 			})
@@ -51,7 +55,7 @@ function CreateCourse({ isEdit = false }) {
 	}
 
 	function deleteAuthorFromCourse(author) {
-		setfreeAuthors([...freeAuthors, author]);
+		setFreeAuthors([...freeAuthors, author]);
 		setCourseAuthors(
 			courseAuthors.filter((a) => {
 				return a.id !== author.id;
