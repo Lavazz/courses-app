@@ -34,7 +34,7 @@ export const fetchUser = async () => {
 	return promise.json();
 };
 
-export const logoutUser = async () => {
+export const logoutUser = () => {
 	return fetch(host + '/logout', {
 		method: 'DELETE',
 		headers: {

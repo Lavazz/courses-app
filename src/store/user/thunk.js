@@ -29,7 +29,6 @@ export const logoutUserThunk = () => {
 	return async function (dispatch) {
 		logoutUser()
 			.then((result) => {
-				console.log('3 delete: ', result);
 				localStorage.removeItem('token');
 				dispatch(deleteUserActionCreator());
 			})

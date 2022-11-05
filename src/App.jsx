@@ -23,7 +23,9 @@ function App() {
 	useEffect(() => {
 		dispatch(getAuthorsThunk());
 		dispatch(getCoursesThunk());
-		dispatch(fetchUserThunk());
+		if (localStorage.getItem('token')) {
+			dispatch(fetchUserThunk());
+		}
 	}, [dispatch]);
 
 	const isAuth = useSelector(selectIsAuth);
