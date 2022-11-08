@@ -1,43 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './App.css';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
-import CreateCourse from './components/CreateCourse/CreateCourse';
+import CourseForm from './components/CourseForm/CourseForm';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchAuthors } from './api/authors';
-import { fetchCourses } from './api/courses';
-import { setAuthorsActionCreator } from './store/authors/actions';
-import { setCoursesActionCreator } from './store/courses/actions';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from './store/user/selectors';
+import { getAuthorsThunk } from './store/authors/thunk';
+import { getCoursesThunk } from './store/courses/thunk';
+import { fetchUserThunk } from './store/user/thunk';
+import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 
 function App() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		fetchAuthors()
-			.then((result) => {
-				dispatch(setAuthorsActionCreator(result));
-			})
-			.catch((e) => {
-				console.error('Failed to fetch authors', e);
-			});
-	}, [dispatch]);
-
-	useEffect(() => {
-		fetchCourses()
-			.then((result) => {
-				dispatch(setCoursesActionCreator(result));
-			})
-			.catch((e) => {
-				console.error('Failed to fetch courses', e);
-			});
+		dispatch(getAuthorsThunk());
+		dispatch(getCoursesThunk());
+		if (localStorage.getItem('token')) {
+			dispatch(fetchUserThunk());
+		}
 	}, [dispatch]);
 
 	const isAuth = useSelector(selectIsAuth);
@@ -50,15 +37,28 @@ function App() {
 					<Route path='/registration' element={<Registration />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='/courses/:courseId' element={<CourseInfo />} />
-
-					<Route path='/courses/add' element={<CreateCourse />} />
+					<Route
+						path='/courses/add'
+						element={
+							<PrivateRoute>
+								<CourseForm />
+							</PrivateRoute>
+						}
+					/>
 					{isAuth ? (
 						<Route path='/' element={<Navigate to='/courses' />} />
 					) : (
 						<Route path='/' element={<Navigate to='/login' />} />
 					)}
-
 					<Route path='/courses' element={<Courses />} />
+					<Route
+						path='/courses/update/:courseId'
+						element={
+							<PrivateRoute>
+								<CourseForm isEdit />
+							</PrivateRoute>
+						}
+					/>
 				</Routes>
 			</div>
 		</div>

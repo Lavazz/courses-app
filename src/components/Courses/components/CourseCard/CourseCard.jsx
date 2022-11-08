@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Button } from '../../../../common/Button/Button';
 import CourseAuthors from './components/Authors/CourseAuthors';
 
@@ -12,12 +11,17 @@ import { getTimeFromMins } from '../../../../utils/types/function';
 import editImg from '../../../../assets/edit.png';
 import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
-import { deleteCourseActionCreator } from '../../../../store/courses/actions';
+import { deleteCourseThunk } from '../../../../store/courses/thunk';
+import { useAuth } from '../../../../hooks/useAuth';
 
-function CourseCard({ course }) {
+function CourseForm({ course }) {
+	const { isAdmin } = useAuth();
 	const dispatch = useDispatch();
 
-	const deleteCourse = () => dispatch(deleteCourseActionCreator(course.id));
+	const deleteCourse = () => {
+		dispatch(deleteCourseThunk(course.id));
+	};
+
 	return (
 		<div className='CourseCard'>
 			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}>
@@ -44,14 +48,19 @@ function CourseCard({ course }) {
 						<Link to={'/courses/' + course.id}>
 							<Button>Show course</Button>
 						</Link>
-						<span className='imageButton'>
-							<Button>
-								<img src={editImg} alt='Edit' />
-							</Button>
-							<Button onClick={deleteCourse}>
-								<img src={deleteImg} alt='Delete' />
-							</Button>
-						</span>
+
+						{isAdmin && (
+							<span className='imageButton'>
+								<Link to={`/courses/update/${course.id}`}>
+									<Button>
+										<img src={editImg} alt='Edit' />
+									</Button>
+								</Link>
+								<Button onClick={deleteCourse}>
+									<img src={deleteImg} alt='Delete' />
+								</Button>
+							</span>
+						)}
 					</div>
 				</div>
 			</ReactSplit>
@@ -59,9 +68,8 @@ function CourseCard({ course }) {
 	);
 }
 
-CourseCard.propTypes = {
+CourseForm.propTypes = {
 	course: PropTypes.object,
-	authors: PropTypes.array,
 };
 
-export default CourseCard;
+export default CourseForm;

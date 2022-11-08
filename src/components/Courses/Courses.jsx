@@ -8,13 +8,15 @@ import SearchBar from './components/SearchBar/SearchBar';
 import { Button } from '../../common/Button/Button';
 
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../store/courses/selectors';
+import { useAuth } from '../../hooks/useAuth';
 
 function Courses() {
 	const courses = useSelector(selectCourses);
+	const { isAdmin } = useAuth();
 	const [filteredCourses, setFilteredCourses] = useState(courses);
+
 	useEffect(() => {
 		setFilteredCourses(courses);
 	}, [courses]);
@@ -42,22 +44,19 @@ function Courses() {
 			<span>
 				<SearchBar searchKeyword={searchKeyword} />
 			</span>
-			<span className='right-button'>
-				<Link to='/courses/add'>
-					<Button>Add new course</Button>
-				</Link>
-			</span>
 
+			{isAdmin && (
+				<span className='right-button'>
+					<Link to='/courses/add'>
+						<Button>Add new course</Button>
+					</Link>
+				</span>
+			)}
 			<div>
 				{renderCoursesList ? renderCoursesList : 'No Courses available'}
 			</div>
 		</div>
 	);
 }
-
-Courses.propTypes = {
-	searchKeyword: PropTypes.func,
-	coursesList: PropTypes.array,
-};
 
 export default Courses;

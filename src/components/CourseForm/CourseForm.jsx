@@ -1,39 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthorItem from './components/AuthorItem/AuthorItem';
-import './CreateCourse.css';
+import './CourseForm.css';
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
-import Moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getTimeFromMins } from '../../utils/types/function';
 import { useSelector, useDispatch } from 'react-redux';
-import { addAuthorActionCreator } from '../../store/authors/actions';
-import { addCourseActionCreator } from '../../store/courses/actions';
+import { addCourseThunk, updateCourseThunk } from '../../store/courses/thunk';
+import { addAuthorThunk } from '../../store/authors/thunk';
 import { selectAuthors } from '../../store/authors/selectors';
+import { selectCourses } from '../../store/courses/selectors';
+import differenceBy from 'lodash/differenceBy';
 
-function CreateCourse() {
-	const authorsList = useSelector(selectAuthors);
-	const [authors, setAuthors] = useState(authorsList);
-	const [courseAuthors, setCourseAuthors] = useState([]);
-	const [descriptionValue, setDescriptionValue] = useState('');
+function CreateCourse({ isEdit = false }) {
+	const { courseId } = useParams();
+	const courses = useSelector(selectCourses);
+	const course = courses.find((course) => course.id === courseId);
+	const allAuthors = useSelector(selectAuthors);
+	const [courseAuthors, setCourseAuthors] = useState(
+		isEdit ? prepareAuthorsToCourse(course) : []
+	);
+
+	const [freeAuthors, setFreeAuthors] = useState(
+		differenceBy(allAuthors, courseAuthors, 'id')
+	);
+
+	const [descriptionValue, setDescriptionValue] = useState(
+		isEdit ? course.description : ''
+	);
 	const [nameValue, setNameValue] = useState('');
-	const [titleValue, setTitleValue] = useState('');
-	const [durationValue, setDurationValue] = useState('');
+	const [titleValue, setTitleValue] = useState(isEdit ? course.title : '');
+	const [durationValue, setDurationValue] = useState(
+		isEdit ? course.duration : ''
+	);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const formatDate = Moment().format('DD/MM/YYYY');
+	useEffect(() => {
+		setFreeAuthors(differenceBy(allAuthors, courseAuthors, 'id'));
+	}, [allAuthors, courseAuthors]);
+
+	function prepareAuthorsToCourse(course) {
+		return course.authors.map((autId) =>
+			allAuthors.find((element) => element.id === autId)
+		);
+	}
 
 	function addAuthorToCourse(author) {
 		setCourseAuthors([...courseAuthors, author]);
-		setAuthors(
-			authors.filter((a) => {
+		setFreeAuthors(
+			freeAuthors.filter((a) => {
 				return a.id !== author.id;
 			})
 		);
 	}
 
 	function deleteAuthorFromCourse(author) {
-		setAuthors([...authors, author]);
+		setFreeAuthors([...freeAuthors, author]);
 		setCourseAuthors(
 			courseAuthors.filter((a) => {
 				return a.id !== author.id;
@@ -41,7 +63,7 @@ function CreateCourse() {
 		);
 	}
 
-	const authorItems = authors.map((author) => (
+	const authorItems = freeAuthors.map((author) => (
 		<AuthorItem
 			author={author}
 			key={author.id}
@@ -66,8 +88,8 @@ function CreateCourse() {
 		const newAuthor = {
 			name: nameValue,
 		};
-		dispatch(addAuthorActionCreator(newAuthor));
-		setAuthors([...authors, newAuthor]);
+		dispatch(addAuthorThunk(newAuthor));
+
 		setNameValue('');
 	};
 
@@ -83,16 +105,18 @@ function CreateCourse() {
 
 		if (Object.keys(errors).length === 0) {
 			const newCourse = {
+				id: courseId,
 				title: titleValue,
 				description: descriptionValue,
-				creationDate: formatDate,
-				duration: durationValue,
+				duration: Number(durationValue),
 				authors: courseAuthors.map((author) => author.id),
 			};
-			dispatch(addCourseActionCreator(newCourse));
+			dispatch(postCourseThunk(newCourse));
 		}
 		navigate('/courses');
 	};
+
+	const postCourseThunk = isEdit ? updateCourseThunk : addCourseThunk;
 
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
@@ -142,9 +166,9 @@ function CreateCourse() {
 
 				<input
 					type='submit'
-					value='Create course'
 					className='button'
 					form='addCourse'
+					value={isEdit ? 'Update course' : 'Create course'}
 				/>
 			</div>
 			<div>

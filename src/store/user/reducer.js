@@ -1,5 +1,4 @@
-import { SET_USER } from './types';
-import { DELETE_USER } from './types';
+import { SET_USER, DELETE_USER, GET_USER } from './types';
 
 const token = localStorage.getItem('token');
 
@@ -8,6 +7,7 @@ export const userInitialState = {
 	email: '',
 	token,
 	isAuth: !!token,
+	role: '',
 };
 
 export const userReduser = (state = userInitialState, action) => {
@@ -16,15 +16,20 @@ export const userReduser = (state = userInitialState, action) => {
 		case DELETE_USER:
 			return {
 				...userInitialState,
-				name: '',
-				email: '',
+				isAuth: false,
+				token: '',
 			};
 		case SET_USER:
 			return {
-				...userInitialState,
+				...state,
 				name: payload.name,
 				email: payload.email,
+				isAuth: true,
+				token: localStorage.getItem('token'),
+				role: payload.role,
 			};
+		case GET_USER:
+			return { ...state, user: payload };
 		default:
 			return state;
 	}

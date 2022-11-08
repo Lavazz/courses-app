@@ -6,8 +6,7 @@ import Input from '../../common/Input/Input';
 import './Login.css';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { setUserActionCreator } from '../../store/user/actions';
-import { fetchUser } from '../../api/auth';
+import { loginUserThunk } from '../../store/user/thunk';
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -18,14 +17,8 @@ function Login() {
 	async function onSubmitCreds(e) {
 		e.preventDefault();
 		const credentials = { email, password };
-
-		fetchUser(credentials)
-			.then((result) => {
-				localStorage.setItem('token', result.result);
-				dispatch(setUserActionCreator(result.user));
-				navigate('/courses');
-			})
-			.catch((e) => console.error('Failed fetch user'));
+		dispatch(loginUserThunk(credentials));
+		navigate('/courses');
 	}
 
 	return (

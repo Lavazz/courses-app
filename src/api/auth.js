@@ -1,6 +1,6 @@
 import { host } from '../constants';
 
-export const fetchUser = async (credentials) => {
+export const loginUser = async (credentials) => {
 	const promise = await fetch(host + '/login', {
 		method: 'POST',
 		headers: {
@@ -8,16 +8,38 @@ export const fetchUser = async (credentials) => {
 		},
 		body: JSON.stringify(credentials),
 	});
-	return await promise.json();
+	return promise.json();
 };
 
 export const registerUser = async (newUser) => {
-	const promise = await fetch(`http://localhost:4000/register`, {
+	const promise = await fetch(host + '/register', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(newUser),
 	});
-	return await promise.json();
+	return promise.json();
+};
+
+export const fetchUser = async () => {
+	const promise = await fetch(host + '/users/me', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+	});
+
+	return promise.json();
+};
+
+export const logoutUser = () => {
+	return fetch(host + '/logout', {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+	});
 };
