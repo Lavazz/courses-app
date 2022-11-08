@@ -14,44 +14,59 @@ import { useDispatch } from 'react-redux';
 import { deleteCourseThunk } from '../../../../store/courses/thunk';
 import { useAuth } from '../../../../hooks/useAuth';
 
-function CourseForm({ course }) {
+function CourseCard({
+	id,
+	title,
+	description,
+	creationDate,
+	duration,
+	authors,
+}) {
 	const { isAdmin } = useAuth();
 	const dispatch = useDispatch();
 
 	const deleteCourse = () => {
-		dispatch(deleteCourseThunk(course.id));
+		dispatch(deleteCourseThunk(id));
 	};
 
 	return (
-		<div className='CourseCard'>
+		<div className='CourseCard' data-testid='course-card'>
 			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}>
 				<div>
-					<div className='course-title'>{course.title}</div>
+					<div className='course-title' data-testid='title'>
+						{title}
+					</div>
 					<br />
-					<div>{course.description}</div>
+					<div data-testid='description'>{description}</div>
 				</div>
 				<div>
 					<div className='course-info'>
-						<span className='course-details'>Authors: </span>
-						<CourseAuthors authorsId={course.authors} />
+						<span className='course-details' data-testid='course_authors'>
+							Authors:{' '}
+						</span>
+						<CourseAuthors authorsId={authors} />
 					</div>
 					<div className='course-info'>
-						<span className='course-details'>Duration: </span>
-						{getTimeFromMins(course.duration)}
+						<span className='course-details' data-testid='course_duration'>
+							Duration:{' '}
+						</span>
+						{getTimeFromMins(duration)}
 						<span> hours</span>
 					</div>
-					<div className='course-info'>
-						<span className='course-details'>Created: </span>
-						{course.creationDate}
+					<div className='course-info' data-testid='creationDate'>
+						<span className='course-details' data-testid='cours_creation'>
+							Created:{' '}
+						</span>
+						{creationDate}
 					</div>
 					<div>
-						<Link to={'/courses/' + course.id}>
+						<Link to={'/courses/' + id}>
 							<Button>Show course</Button>
 						</Link>
 
 						{isAdmin && (
 							<span className='imageButton'>
-								<Link to={`/courses/update/${course.id}`}>
+								<Link to={`/courses/update/${id}`}>
 									<Button>
 										<img src={editImg} alt='Edit' />
 									</Button>
@@ -68,8 +83,13 @@ function CourseForm({ course }) {
 	);
 }
 
-CourseForm.propTypes = {
-	course: PropTypes.object,
+CourseCard.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	description: PropTypes.string,
+	creationDate: PropTypes.string,
+	duration: PropTypes.number,
+	authors: PropTypes.array,
 };
 
-export default CourseForm;
+export default CourseCard;
