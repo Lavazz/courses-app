@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react';
+import { mockedCoursesList } from '../../moks/courses';
 import { coursesReducer } from '../courses/reducer';
 import { ADD_COURSE } from '../courses/types';
-import { mockedCoursesList } from '../../moks/courses';
 
 afterEach(cleanup);
 

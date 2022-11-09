@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '../../../../common/Button/Button';
-import CourseAuthors from './components/Authors/CourseAuthors';
 
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 
@@ -13,6 +12,8 @@ import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
 import { deleteCourseThunk } from '../../../../store/courses/thunk';
 import { useAuth } from '../../../../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { selectAuthors } from '../../../../store/authors/selectors';
 
 function CourseCard({
 	id,
@@ -24,6 +25,7 @@ function CourseCard({
 }) {
 	const { isAdmin } = useAuth();
 	const dispatch = useDispatch();
+	const allAuthors = useSelector(selectAuthors);
 
 	const deleteCourse = () => {
 		dispatch(deleteCourseThunk(id));
@@ -31,54 +33,52 @@ function CourseCard({
 
 	return (
 		<div className='CourseCard' data-testid='course-card'>
-			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}>
-				<div>
-					<div className='course-title' data-testid='title'>
-						{title}
-					</div>
-					<br />
-					<div data-testid='description'>{description}</div>
+			{/* <ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}> */}
+			<div className='title'>
+				<div className='course-title' data-testid='title'>
+					{title}
+				</div>
+				<br />
+				<div data-testid='description'>{description}</div>
+			</div>
+			<div className='info'>
+				<div className='course-info' data-testid='course_authors'>
+					<span className='course-details'>Authors: </span>
+					{allAuthors
+						.filter((auth) => authors.includes(auth.id))
+						.map((auth) => auth.name)
+						.join(', ')}
+				</div>
+				<div className='course-info' data-testid='course_duration'>
+					<span className='course-details'>Duration: </span>
+					{getTimeFromMins(duration)}
+					<span> hours</span>
+				</div>
+				<div className='course-info' data-testid='course_creation'>
+					<span className='course-details'>Created: </span>
+					{creationDate}
 				</div>
 				<div>
-					<div className='course-info'>
-						<span className='course-details' data-testid='course_authors'>
-							Authors:{' '}
-						</span>
-						<CourseAuthors authorsId={authors} />
-					</div>
-					<div className='course-info'>
-						<span className='course-details' data-testid='course_duration'>
-							Duration:{' '}
-						</span>
-						{getTimeFromMins(duration)}
-						<span> hours</span>
-					</div>
-					<div className='course-info' data-testid='creationDate'>
-						<span className='course-details' data-testid='cours_creation'>
-							Created:{' '}
-						</span>
-						{creationDate}
-					</div>
-					<div>
-						<Link to={'/courses/' + id}>
-							<Button>Show course</Button>
-						</Link>
+					<Link to={'/courses/' + id}>
+						<Button>Show course</Button>
+					</Link>
 
-						{isAdmin && (
-							<span className='imageButton'>
-								<Link to={`/courses/update/${id}`}>
-									<Button>
-										<img src={editImg} alt='Edit' />
-									</Button>
-								</Link>
-								<Button onClick={deleteCourse}>
-									<img src={deleteImg} alt='Delete' />
+					{isAdmin && (
+						<span className='imageButton'>
+							<Link to={`/courses/update/${id}`}>
+								<Button>
+									<img src={editImg} alt='Edit' />
 								</Button>
-							</span>
-						)}
-					</div>
+							</Link>
+							<Button onClick={deleteCourse}>
+								<img src={deleteImg} alt='Delete' />
+							</Button>
+						</span>
+					)}
 				</div>
-			</ReactSplit>
+			</div>
+
+			{/* </ReactSplit> */}
 		</div>
 	);
 }

@@ -2,16 +2,17 @@ import React, { Fragment } from 'react';
 
 import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 import { Link, useParams } from 'react-router-dom';
-import CourseAuthors from '../Courses/components/CourseCard/components/Authors/CourseAuthors';
 import './CourseInfo.css';
 import { getTimeFromMins } from '../../utils/types/function';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectCourses } from '../../store/courses/selectors';
+import { selectAuthors } from '../../store/authors/selectors';
 
 function CourseInfo() {
 	const { courseId } = useParams();
 	const courses = useSelector(selectCourses);
+	const allAuthors = useSelector(selectAuthors);
 
 	const course = courses.find((element) => {
 		return element.id === courseId;
@@ -45,7 +46,10 @@ function CourseInfo() {
 					</div>
 					<div className='course-info'>
 						<span className='course-details'>Authors: </span>
-						<CourseAuthors authorsId={course.authors} />
+						{allAuthors
+							.filter((auth) => course.authors.includes(auth.id))
+							.map((auth) => auth.name)
+							.join(', ')}
 					</div>
 				</div>
 			</ReactSplit>

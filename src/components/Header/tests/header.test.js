@@ -34,7 +34,7 @@ describe('Header renders correctly', () => {
 		);
 	});
 	test('Header should display name and logo', () => {
-		expect(screen.queryByText('admin')).toBeInTheDocument();
+		expect(screen.getByText('admin')).toBeInTheDocument();
 		expect(screen.getByTestId('logo')).toBeVisible();
 	});
 });
