@@ -23,6 +23,10 @@ const mockedStore = {
 	dispatch: jest.fn(),
 };
 
+jest.mock('../components/Logo/Logo', () => ({
+	Logo: () => <div data-testid='logo' />,
+}));
+
 describe('Header renders correctly', () => {
 	beforeEach(() => {
 		render(
@@ -35,6 +39,6 @@ describe('Header renders correctly', () => {
 	});
 	test('Header should display name and logo', () => {
 		expect(screen.getByText('admin')).toBeInTheDocument();
-		expect(screen.getByTestId('logo')).toBeVisible();
+		expect(screen.getByTestId('logo')).toBeInTheDocument();
 	});
 });

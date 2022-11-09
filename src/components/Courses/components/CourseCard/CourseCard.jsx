@@ -30,16 +30,14 @@ function CourseCard({
 	};
 
 	return (
-		<div className='CourseCard' data-testid='course-card'>
+		<div className='CourseCard'>
 			<div className='title'>
-				<div className='course-title' data-testid='title'>
-					{title}
-				</div>
+				<div className='course-title'>{title}</div>
 				<br />
-				<div data-testid='description'>{description}</div>
+				<div>{description}</div>
 			</div>
 			<div className='info'>
-				<div className='course-info' data-testid='course_authors'>
+				<div className='course-info'>
 					<span className='course-details'>Authors: </span>
 					{allAuthors
 						.filter((auth) => authors.includes(auth.id))
@@ -51,7 +49,7 @@ function CourseCard({
 					{getTimeFromMins(duration)}
 					<span> hours</span>
 				</div>
-				<div className='course-info' data-testid='course_creation'>
+				<div className='course-info'>
 					<span className='course-details'>Created: </span>
 					{creationDate}
 				</div>
