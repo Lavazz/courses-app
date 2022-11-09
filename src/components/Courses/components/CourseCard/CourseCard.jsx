@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button } from '../../../../common/Button/Button';
 
-import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
-
 import './CourseCard.css';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -33,7 +31,6 @@ function CourseCard({
 
 	return (
 		<div className='CourseCard' data-testid='course-card'>
-			{/* <ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}> */}
 			<div className='title'>
 				<div className='course-title' data-testid='title'>
 					{title}
@@ -77,8 +74,6 @@ function CourseCard({
 					)}
 				</div>
 			</div>
-
-			{/* </ReactSplit> */}
 		</div>
 	);
 }
