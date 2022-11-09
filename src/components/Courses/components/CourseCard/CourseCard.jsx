@@ -30,7 +30,7 @@ function CourseCard({
 	};
 
 	return (
-		<div className='CourseCard'>
+		<div className='CourseCard' data-testid='course-card'>
 			<div className='title'>
 				<div className='course-title'>{title}</div>
 				<br />
@@ -38,7 +38,9 @@ function CourseCard({
 			</div>
 			<div className='info'>
 				<div className='course-info'>
-					<span className='course-details'>Authors: </span>
+					<span className='course-details' data-testid='course_authors'>
+						Authors:{' '}
+					</span>
 					{allAuthors
 						.filter((auth) => authors.includes(auth.id))
 						.map((auth) => auth.name)

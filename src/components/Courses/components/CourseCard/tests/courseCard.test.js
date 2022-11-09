@@ -53,14 +53,7 @@ describe('Course card content', () => {
 	});
 
 	it('should display authors list', () => {
-		expect(
-			screen.getByText(
-				mockedAuthorsList
-					.filter((auth) => mockedCoursesList[0].authors.includes(auth.id))
-					.map((auth) => auth.name)
-					.join(', ')
-			)
-		).toBeInTheDocument();
+		expect(screen.getByText('Vasiliy Dobkin, Nicolas Kim')).toBeInTheDocument();
 	});
 
 	it('should display created date in the correct format', () => {
