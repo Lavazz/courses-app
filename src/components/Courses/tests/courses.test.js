@@ -39,7 +39,7 @@ describe('test <Courses />', () => {
 	it('courseform should be showed after a click on a button "Add new course"', async () => {
 		render(
 			<Provider store={mockedStore}>
-				<MemoryRouter basename=''>
+				<MemoryRouter>
 					<Routes>
 						<Route path='/' element={<Courses />} />
 						<Route path='/courses/add' element={<CourseForm />} />

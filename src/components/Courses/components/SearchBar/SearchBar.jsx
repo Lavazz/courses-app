@@ -14,6 +14,10 @@ function SearchBar({ searchKeyword }) {
 		searchKeyword(newValue);
 	};
 
+	const handleClick = (e) => {
+		e.preventDefault();
+	};
+
 	return (
 		<form>
 			<span className='SearchBar'>
@@ -23,7 +27,7 @@ function SearchBar({ searchKeyword }) {
 					type='search'
 					value={value}
 				/>
-				<Button onClick={() => searchKeyword(value)}>Search </Button>
+				<Button onClick={handleClick}>Search</Button>
 			</span>
 		</form>
 	);
