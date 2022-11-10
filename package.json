@@ -6,7 +6,6 @@
     "@devbookhq/splitter": "^1.3.2",
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "lodash.differenceby": "^4.8.0",
     "moment": "^2.29.4",
@@ -17,6 +16,7 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
+    "resize-observer": "^1.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -28,7 +28,7 @@
     "eslint:fix": "eslint --fix --ext .js --ext .jsx src",
     "test:nowatch": "react-scripts test --watchAll=false",
     "prepare": "husky install",
-    "prepublish": "npm run eslint:fix"
+    "prepublish": "npm run eslint:fix && npm run test:nowatch"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^13.4.0",
     "eslint": "^8.26.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -59,6 +60,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.2",
+    "redux-mock-store": "^1.5.4",
+    "resize-observer-polyfill": "^1.5.1"
   }
 }

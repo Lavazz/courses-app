@@ -1,4 +1,7 @@
 .CourseCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 border: 2px solid rgb(127, 183, 127);
 padding: 15px 15px 15px 15px;
 margin-bottom: 20px;
@@ -35,4 +38,26 @@ margin-top: 10px;
  height:10px;
 }
 
+
+    .info {
+        width: 35%;
+    }
+
+    .title {
+        width: 50%;
+    }
+
+    .authors {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .author-list {
+        -webkit-line-clamp: 1;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.2em;
+    }
 

@@ -11,7 +11,7 @@ import { selectAuthors } from '../../store/authors/selectors';
 import { selectCourses } from '../../store/courses/selectors';
 import differenceBy from 'lodash/differenceBy';
 
-function CreateCourse({ isEdit = false }) {
+function CourseForm({ isEdit = false }) {
 	const { courseId } = useParams();
 	const courses = useSelector(selectCourses);
 	const course = courses.find((course) => course.id === courseId);
@@ -150,7 +150,11 @@ function CreateCourse({ isEdit = false }) {
 	return (
 		<div className='creation-page'>
 			<form onSubmit={addAuthor} id='addAuthor'></form>
-			<form onSubmit={createCourse} id='addCourse'></form>
+			<form
+				data-testid='course-form'
+				onSubmit={createCourse}
+				id='addCourse'
+			></form>
 			<div className='input'>
 				<label>
 					<div>Title</div>
@@ -244,4 +248,4 @@ function CreateCourse({ isEdit = false }) {
 	);
 }
 
-export default CreateCourse;
+export default CourseForm;

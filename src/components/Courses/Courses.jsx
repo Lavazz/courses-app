@@ -36,7 +36,7 @@ function Courses() {
 	};
 
 	const renderCoursesList = filteredCourses.map((course) => {
-		return <CourseCard course={course} key={course.id} />;
+		return <CourseCard {...course} key={course.id} />;
 	});
 
 	return (

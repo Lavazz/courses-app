@@ -1,8 +1,5 @@
 import React from 'react';
 import { Button } from '../../../../common/Button/Button';
-import CourseAuthors from './components/Authors/CourseAuthors';
-
-import ReactSplit, { SplitDirection } from '@devbookhq/splitter';
 
 import './CourseCard.css';
 import { Link } from 'react-router-dom';
@@ -13,63 +10,81 @@ import deleteImg from '../../../../assets/delete.png';
 import { useDispatch } from 'react-redux';
 import { deleteCourseThunk } from '../../../../store/courses/thunk';
 import { useAuth } from '../../../../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { selectAuthors } from '../../../../store/authors/selectors';
 
-function CourseForm({ course }) {
+function CourseCard({
+	id,
+	title,
+	description,
+	creationDate,
+	duration,
+	authors,
+}) {
 	const { isAdmin } = useAuth();
 	const dispatch = useDispatch();
+	const allAuthors = useSelector(selectAuthors);
 
 	const deleteCourse = () => {
-		dispatch(deleteCourseThunk(course.id));
+		dispatch(deleteCourseThunk(id));
 	};
 
 	return (
-		<div className='CourseCard'>
-			<ReactSplit direction={SplitDirection.Horizontal} initialSizes={[69, 31]}>
-				<div>
-					<div className='course-title'>{course.title}</div>
-					<br />
-					<div>{course.description}</div>
+		<div className='CourseCard' data-testid='course-card'>
+			<div className='title'>
+				<div className='course-title'>{title}</div>
+				<br />
+				<div>{description}</div>
+			</div>
+			<div className='info'>
+				<div className='course-info'>
+					<span className='course-details' data-testid='course_authors'>
+						Authors:{' '}
+					</span>
+					{allAuthors
+						.filter((auth) => authors.includes(auth.id))
+						.map((auth) => auth.name)
+						.join(', ')}
+				</div>
+				<div className='course-info' data-testid='course_duration'>
+					<span className='course-details'>Duration: </span>
+					{getTimeFromMins(duration)}
+					<span> hours</span>
+				</div>
+				<div className='course-info'>
+					<span className='course-details'>Created: </span>
+					{creationDate}
 				</div>
 				<div>
-					<div className='course-info'>
-						<span className='course-details'>Authors: </span>
-						<CourseAuthors authorsId={course.authors} />
-					</div>
-					<div className='course-info'>
-						<span className='course-details'>Duration: </span>
-						{getTimeFromMins(course.duration)}
-						<span> hours</span>
-					</div>
-					<div className='course-info'>
-						<span className='course-details'>Created: </span>
-						{course.creationDate}
-					</div>
-					<div>
-						<Link to={'/courses/' + course.id}>
-							<Button>Show course</Button>
-						</Link>
+					<Link to={'/courses/' + id}>
+						<Button>Show course</Button>
+					</Link>
 
-						{isAdmin && (
-							<span className='imageButton'>
-								<Link to={`/courses/update/${course.id}`}>
-									<Button>
-										<img src={editImg} alt='Edit' />
-									</Button>
-								</Link>
-								<Button onClick={deleteCourse}>
-									<img src={deleteImg} alt='Delete' />
+					{isAdmin && (
+						<span className='imageButton'>
+							<Link to={`/courses/update/${id}`}>
+								<Button>
+									<img src={editImg} alt='Edit' />
 								</Button>
-							</span>
-						)}
-					</div>
+							</Link>
+							<Button onClick={deleteCourse}>
+								<img src={deleteImg} alt='Delete' />
+							</Button>
+						</span>
+					)}
 				</div>
-			</ReactSplit>
+			</div>
 		</div>
 	);
 }
 
-CourseForm.propTypes = {
-	course: PropTypes.object,
+CourseCard.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	description: PropTypes.string,
+	creationDate: PropTypes.string,
+	duration: PropTypes.number,
+	authors: PropTypes.array,
 };
 
-export default CourseForm;
+export default CourseCard;

@@ -4,4 +4,4 @@ import logo from '../../../../assets/logo.png';
 
 import './Logo.css';
 
-export const Logo = () => <img src={logo} alt='Logo' />;
+export const Logo = () => <img src={logo} alt='Logo' data-testid='logo' />;
